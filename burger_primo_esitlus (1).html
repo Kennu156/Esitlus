@@ -1,0 +1,1882 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Burger Primo — Lõputöö esitlus</title>
+<style>
+  :root {
+    --bg-dark: #141414;
+    --bg-darker: #0a0a0a;
+    --bg-card: #1f1f1f;
+    --bg-card-hover: #2a2a2a;
+    --border: #383838;
+    --border-light: #4a4a4a;
+    --orange: #EA580C;
+    --orange-light: #FB923C;
+    --orange-dark: #C2410C;
+    --text: #FFFFFF;
+    --text-muted: #D1D5DB;
+    --text-dim: #9CA3AF;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Calibri', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    background: #000;
+    color: var(--text);
+    overflow: hidden;
+    height: 100vh;
+    user-select: none;
+  }
+
+  .presentation {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .slide {
+    position: absolute;
+    width: 94vw;
+    max-width: 1400px;
+    height: 88vh;
+    max-height: 800px;
+    background: var(--bg-dark);
+    border-radius: 8px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 0 1px var(--border);
+    padding: 50px 60px;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateX(100px) scale(0.95);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .slide.active {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    pointer-events: auto;
+  }
+
+  .slide.prev { transform: translateX(-100px) scale(0.95); }
+
+  .slide-number {
+    position: absolute;
+    top: 24px;
+    right: 32px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--orange);
+    letter-spacing: 3px;
+    font-family: 'Arial Black', sans-serif;
+  }
+
+  .slide-brand {
+    position: absolute;
+    bottom: 24px;
+    left: 32px;
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 2px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .slide-brand::before {
+    content: '';
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    background: var(--orange);
+    border-radius: 50%;
+  }
+
+  .slide h1 {
+    font-family: 'Arial Black', 'Helvetica Neue', sans-serif;
+    font-size: 64px;
+    font-weight: 900;
+    color: var(--text);
+    margin-bottom: 8px;
+    line-height: 1.05;
+    letter-spacing: -1px;
+  }
+
+  .slide h2 {
+    font-family: 'Arial Black', 'Helvetica Neue', sans-serif;
+    font-size: 44px;
+    font-weight: 900;
+    color: var(--text);
+    margin-bottom: 28px;
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+
+  .slide h2::before {
+    content: '';
+    width: 8px;
+    height: 44px;
+    background: var(--orange);
+    border-radius: 2px;
+  }
+
+  .slide h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--orange);
+    margin-bottom: 14px;
+    letter-spacing: 1.5px;
+    font-family: 'Arial Black', sans-serif;
+  }
+
+  .slide p { font-size: 17px; line-height: 1.65; color: var(--text-muted); }
+
+  /* SLIDE 1 — TITLE */
+  .slide-title {
+    background: radial-gradient(ellipse at top right, #2a1810 0%, var(--bg-dark) 50%, var(--bg-darker) 100%);
+    justify-content: center;
+    align-items: flex-start;
+    padding: 80px;
+  }
+
+  .slide-title h1 {
+    font-size: 110px;
+    margin-bottom: 0;
+    background: linear-gradient(135deg, var(--text) 0%, var(--orange-light) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .slide-title .accent-bar {
+    width: 140px;
+    height: 6px;
+    background: var(--orange);
+    margin: 28px 0 36px;
+    border-radius: 3px;
+    box-shadow: 0 0 20px var(--orange);
+  }
+
+  .slide-title .subtitle {
+    font-size: 30px;
+    color: var(--text-muted);
+    margin-bottom: 70px;
+    font-weight: 300;
+  }
+
+  .slide-title .authors {
+    font-size: 18px;
+    color: var(--orange);
+    font-weight: 700;
+    letter-spacing: 4px;
+    font-family: 'Arial Black', sans-serif;
+  }
+
+  .title-burger {
+    position: absolute;
+    right: 100px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 380px;
+    height: 380px;
+    opacity: 0.9;
+    filter: drop-shadow(0 20px 40px rgba(234, 88, 12, 0.3));
+  }
+
+  /* SLIDE 2 — PROJEKTI ÜLEVAADE — INTERAKTIIVNE */
+  .overview-interactive {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 32px;
+    flex: 1;
+    margin-top: 10px;
+  }
+
+  .overview-tabs { display: flex; flex-direction: column; gap: 12px; }
+
+  .overview-tab {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 22px 26px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    position: relative;
+  }
+
+  .overview-tab:hover { border-color: var(--orange); transform: translateX(4px); }
+
+  .overview-tab.active {
+    background: linear-gradient(135deg, var(--orange) 0%, var(--orange-dark) 100%);
+    border-color: var(--orange);
+    box-shadow: 0 8px 24px rgba(234, 88, 12, 0.3);
+  }
+
+  .overview-tab.active::after {
+    content: '';
+    position: absolute;
+    right: -16px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 8px solid transparent;
+    border-left-color: var(--orange);
+  }
+
+  .overview-tab .tab-num {
+    width: 50px;
+    height: 50px;
+    background: var(--bg-darker);
+    border: 2px solid var(--orange);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 22px;
+    color: var(--orange);
+    flex-shrink: 0;
+    transition: all 0.3s;
+    font-family: 'Arial Black', sans-serif;
+  }
+
+  .overview-tab.active .tab-num {
+    background: var(--text);
+    color: var(--orange);
+    border-color: var(--text);
+  }
+
+  .overview-tab h4 {
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--text);
+    letter-spacing: 1.5px;
+    font-family: 'Arial Black', sans-serif;
+  }
+
+  .overview-tab .tab-hint { font-size: 14px; color: var(--text-dim); margin-top: 3px; }
+  .overview-tab.active .tab-hint { color: rgba(255,255,255,0.85); }
+
+  .overview-content {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 36px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .overview-content::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 6px; height: 100%;
+    background: var(--orange);
+  }
+
+  .overview-panel { display: none; }
+  .overview-panel.active { display: block; animation: fadeIn 0.4s ease; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .overview-panel h3 {
+    font-size: 36px;
+    margin-bottom: 22px;
+    color: var(--orange);
+    font-family: 'Arial Black', sans-serif;
+    letter-spacing: 0.5px;
+  }
+
+  .overview-panel p { font-size: 20px; line-height: 1.7; color: var(--text-muted); }
+  .overview-panel .highlight { color: var(--orange-light); font-weight: 700; }
+
+  /* SLIDE 3 — TEHNOLOOGIAD */
+  .tech-interactive {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
+    flex: 1;
+  }
+
+  .tech-stack {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px 28px;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .tech-stack::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 5px;
+    background: var(--orange);
+  }
+
+  .tech-stack:hover {
+    border-color: var(--orange);
+    transform: translateY(-6px);
+    box-shadow: 0 12px 32px rgba(234, 88, 12, 0.2);
+  }
+
+  .tech-stack .stack-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 26px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .tech-stack .stack-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--orange) 0%, var(--orange-dark) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 6px 16px rgba(234, 88, 12, 0.35);
+  }
+
+  .tech-stack .stack-icon svg {
+    width: 34px;
+    height: 34px;
+    stroke: white;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .tech-stack h3 { font-size: 24px; color: var(--text); margin: 0; letter-spacing: 1.5px; }
+
+  .tech-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+  }
+
+  .tech-item {
+    background: var(--bg-darker);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    transition: all 0.2s;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .tech-item:hover {
+    border-color: var(--orange);
+    background: rgba(234, 88, 12, 0.08);
+    transform: translateX(4px);
+  }
+
+  .tech-item .tech-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--orange);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .tech-item .tech-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .tech-item .tech-desc {
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-left: auto;
+    font-style: italic;
+  }
+
+  .tech-note {
+    margin-top: 18px;
+    padding: 16px 18px;
+    background: rgba(234, 88, 12, 0.08);
+    border-left: 3px solid var(--orange);
+    border-radius: 4px;
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    font-style: italic;
+  }
+
+  /* SLIDE 4 — INTERAKTIIVNE DIAGRAMM */
+  .features-diagram {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+  }
+
+  .features-svg { width: 100%; height: 100%; max-height: 540px; }
+
+  .feature-node { cursor: pointer; transition: all 0.3s; transform-origin: center; }
+
+  .feature-node rect.bg {
+    fill: var(--bg-card);
+    stroke: var(--border);
+    stroke-width: 2;
+    transition: all 0.3s;
+  }
+
+  .feature-node:hover rect.bg,
+  .feature-node.active rect.bg {
+    fill: var(--orange);
+    stroke: var(--orange-light);
+    stroke-width: 2.5;
+    filter: drop-shadow(0 0 24px rgba(234, 88, 12, 0.6));
+  }
+
+  .feature-node .node-icon {
+    stroke: var(--text);
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    pointer-events: none;
+    transition: stroke 0.3s;
+  }
+
+  .feature-node text.label {
+    fill: var(--text);
+    font-size: 15px;
+    font-weight: 700;
+    text-anchor: middle;
+    pointer-events: none;
+    font-family: 'Arial Black', sans-serif;
+    transition: fill 0.3s;
+  }
+
+  .feature-center rect {
+    fill: var(--bg-darker);
+    stroke: var(--orange);
+    stroke-width: 3;
+  }
+
+  .feature-center text {
+    fill: var(--orange);
+    font-size: 24px;
+    font-weight: 900;
+    text-anchor: middle;
+    dominant-baseline: central;
+    font-family: 'Arial Black', sans-serif;
+  }
+
+  .feature-line {
+    stroke: var(--border);
+    stroke-width: 2;
+    stroke-dasharray: 5 5;
+    transition: all 0.3s;
+  }
+
+  .feature-detail {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--bg-card);
+    border: 1px solid var(--orange);
+    border-radius: 12px;
+    padding: 22px 30px;
+    max-width: 640px;
+    min-width: 460px;
+    text-align: center;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s;
+  }
+
+  .feature-detail.show { opacity: 1; }
+
+  .feature-detail h4 {
+    color: var(--orange);
+    font-size: 20px;
+    margin-bottom: 8px;
+    font-family: 'Arial Black', sans-serif;
+    letter-spacing: 0.5px;
+  }
+
+  .feature-detail p { font-size: 16px; color: var(--text-muted); line-height: 1.5; }
+
+  .features-hint {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--text-dim);
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  /* SLIDE 5 — ADMINPANEEL */
+  .admin-interactive {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 28px;
+    flex: 1;
+  }
+
+  .admin-modules {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 22px 26px;
+    overflow-y: auto;
+  }
+
+  .admin-modules h3 {
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .module-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+  }
+
+  .module-item:hover {
+    background: var(--bg-darker);
+    border-color: var(--orange);
+    transform: translateX(4px);
+  }
+
+  .module-item .module-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--bg-darker);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+
+  .module-item .module-icon svg {
+    width: 22px;
+    height: 22px;
+    stroke: var(--orange);
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: stroke 0.2s;
+  }
+
+  .module-item:hover .module-icon {
+    background: var(--orange);
+    border-color: var(--orange);
+  }
+
+  .module-item:hover .module-icon svg { stroke: var(--text); }
+
+  .module-item .module-text { flex: 1; }
+
+  .module-item strong {
+    color: var(--text);
+    font-size: 16px;
+    font-weight: 700;
+    display: block;
+  }
+
+  .module-item span {
+    color: var(--text-dim);
+    font-size: 14px;
+    display: block;
+    margin-top: 3px;
+  }
+
+  .admin-roles { display: flex; flex-direction: column; gap: 12px; }
+
+  .admin-roles h3 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 2px;
+  }
+
+  .role-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .role-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0;
+    width: 5px; height: 100%;
+    background: var(--orange);
+    transition: width 0.3s;
+  }
+
+  .role-card:hover {
+    border-color: var(--orange);
+    transform: translateX(4px);
+  }
+
+  .role-card:hover::before { width: 100%; opacity: 0.1; }
+
+  .role-card h4 {
+    font-size: 17px;
+    color: var(--text);
+    margin-bottom: 4px;
+    font-family: 'Arial Black', sans-serif;
+  }
+
+  .role-card p { font-size: 13px; color: var(--text-dim); }
+
+  .role-card .role-badge {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    padding: 4px 10px;
+    background: var(--orange);
+    color: var(--text);
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+
+  /* SLIDE 6 — TELLIMUSE VOOG */
+  .flow-interactive {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 36px;
+  }
+
+  .flow-svg { width: 100%; height: 200px; }
+  .flow-node-group { cursor: pointer; }
+
+  .flow-node-bg {
+    fill: var(--bg-card);
+    stroke: var(--border);
+    stroke-width: 2;
+    transition: all 0.3s;
+  }
+
+  .flow-node-group:hover .flow-node-bg,
+  .flow-node-group.active .flow-node-bg {
+    fill: var(--orange);
+    stroke: var(--orange-light);
+    filter: drop-shadow(0 0 12px rgba(234, 88, 12, 0.6));
+  }
+
+  .flow-node-num {
+    fill: var(--orange);
+    font-size: 20px;
+    font-weight: 900;
+    text-anchor: middle;
+    dominant-baseline: central;
+    font-family: 'Arial Black', sans-serif;
+    transition: fill 0.3s;
+  }
+
+  .flow-node-group:hover .flow-node-num,
+  .flow-node-group.active .flow-node-num { fill: var(--text); }
+
+  .flow-node-label {
+    fill: var(--text);
+    font-size: 13px;
+    font-weight: 700;
+    text-anchor: middle;
+  }
+
+  .flow-arrow {
+    stroke: var(--orange);
+    stroke-width: 2;
+    fill: none;
+    marker-end: url(#arrowhead);
+  }
+
+  .flow-hint {
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: -8px;
+  }
+
+  .status-section {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 22px 26px;
+  }
+
+  .status-section h3 {
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .status-chain {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  .status-chip {
+    background: var(--bg-darker);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 10px 18px;
+    border-radius: 22px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .status-chip:hover {
+    background: var(--orange);
+    border-color: var(--orange);
+    transform: translateY(-2px);
+  }
+
+  .status-chip.done { background: var(--orange); border-color: var(--orange); }
+
+  .status-chip.alert {
+    background: transparent;
+    border-color: #ef4444;
+    color: #ef4444;
+  }
+
+  .status-chip.alert:hover { background: #ef4444; color: var(--text); }
+  .status-arrow { color: var(--orange); font-weight: bold; font-size: 18px; }
+  .status-note { font-size: 13px; color: var(--text-dim); font-style: italic; margin-left: 8px; }
+
+  /* SLIDE 7 — MEESKONNATÖÖ */
+  .team-interactive {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .team-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px 24px;
+    transition: all 0.3s;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .team-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 100%;
+    background: linear-gradient(180deg, transparent 0%, rgba(234, 88, 12, 0.05) 100%);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .team-card:hover {
+    border-color: var(--orange);
+    transform: translateY(-8px);
+    box-shadow: 0 16px 40px rgba(234, 88, 12, 0.2);
+  }
+
+  .team-card:hover::before { opacity: 1; }
+
+  .team-card .avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--orange) 0%, var(--orange-dark) 100%);
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: 900;
+    font-family: 'Arial Black', sans-serif;
+    margin-bottom: 16px;
+    box-shadow: 0 8px 20px rgba(234, 88, 12, 0.4);
+    transition: transform 0.3s;
+    position: relative;
+    z-index: 1;
+  }
+
+  .team-card:hover .avatar { transform: scale(1.1) rotate(-5deg); }
+
+  .team-card h3 {
+    font-size: 24px;
+    color: var(--text);
+    margin-bottom: 6px;
+    font-family: 'Arial Black', sans-serif;
+    position: relative;
+    z-index: 1;
+  }
+
+  .team-card .team-role {
+    font-size: 13px;
+    color: var(--orange);
+    letter-spacing: 1.5px;
+    margin-bottom: 16px;
+    font-weight: 700;
+    position: relative;
+    z-index: 1;
+  }
+
+  .team-card ul { list-style: none; position: relative; z-index: 1; }
+
+  .team-card li {
+    padding: 9px 0 9px 22px;
+    font-size: 15px;
+    position: relative;
+    line-height: 1.5;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border);
+    transition: all 0.2s;
+  }
+
+  .team-card li:last-child { border-bottom: none; }
+
+  .team-card li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--orange);
+    font-weight: bold;
+    transition: transform 0.2s;
+  }
+
+  .team-card li:hover { color: var(--text); padding-left: 24px; }
+  .team-card li:hover::before { transform: translateX(4px); }
+
+  /* SLIDE 8 — TULEMUSTEANALÜÜS */
+  .analysis-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    flex: 1;
+  }
+
+  .analysis-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 30px 26px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s;
+    overflow: hidden;
+  }
+
+  .analysis-card:hover { border-color: var(--orange); transform: translateY(-4px); }
+
+  .analysis-card .big-num {
+    font-family: 'Arial Black', sans-serif;
+    font-size: 96px;
+    font-weight: 900;
+    color: var(--orange);
+    line-height: 1;
+    opacity: 0.15;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    transition: opacity 0.3s;
+  }
+
+  .analysis-card:hover .big-num { opacity: 0.3; }
+
+  .analysis-card h3 {
+    font-size: 20px;
+    margin-bottom: 18px;
+    color: var(--text);
+    position: relative;
+    z-index: 1;
+    line-height: 1.3;
+    font-family: 'Arial Black', sans-serif;
+  }
+
+  .analysis-card .indicator {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 14px;
+    text-transform: uppercase;
+  }
+
+  .analysis-card .indicator.good { background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid #4ade80; }
+  .analysis-card .indicator.warn { background: rgba(234, 179, 8, 0.15); color: #fbbf24; border: 1px solid #fbbf24; }
+  .analysis-card .indicator.action { background: rgba(234, 88, 12, 0.15); color: var(--orange-light); border: 1px solid var(--orange); }
+
+  .analysis-card p {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--text-muted);
+    position: relative;
+    z-index: 1;
+  }
+
+  /* SLIDE 9 — KOKKUVÕTE */
+  .summary-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px 24px;
+    flex: 1;
+    align-content: center;
+  }
+
+  .summary-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 16px 20px;
+    border-radius: 8px;
+    transition: all 0.3s;
+  }
+
+  .summary-item:hover {
+    border-color: var(--orange);
+    transform: translateX(6px);
+    background: var(--bg-card-hover);
+  }
+
+  .summary-item .plus {
+    width: 32px;
+    height: 32px;
+    background: var(--orange);
+    color: var(--text);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 18px;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(234, 88, 12, 0.4);
+    transition: transform 0.3s;
+  }
+
+  .summary-item:hover .plus { transform: rotate(90deg) scale(1.1); }
+
+  .summary-item p { font-size: 16px; line-height: 1.5; color: var(--text); }
+
+  /* SLIDE 10 — TÄNAME */
+  .slide-end {
+    background: radial-gradient(ellipse at center, #2a1810 0%, var(--bg-dark) 50%, var(--bg-darker) 100%);
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .slide-end h1 {
+    font-size: 96px;
+    background: linear-gradient(135deg, var(--text) 0%, var(--orange-light) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .slide-end .accent-bar {
+    width: 120px;
+    height: 6px;
+    background: var(--orange);
+    margin: 30px auto;
+    border-radius: 3px;
+    box-shadow: 0 0 20px var(--orange);
+  }
+
+  .slide-end p {
+    color: var(--text-muted);
+    font-size: 22px;
+    letter-spacing: 6px;
+    font-weight: 700;
+    font-family: 'Arial Black', sans-serif;
+  }
+
+  .slide-end .burger-end {
+    width: 140px;
+    height: 140px;
+    margin-bottom: 30px;
+    filter: drop-shadow(0 10px 30px rgba(234, 88, 12, 0.5));
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+
+  /* NAVIGATION */
+  .nav {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    background: rgba(31, 31, 31, 0.95);
+    backdrop-filter: blur(12px);
+    padding: 10px 14px;
+    border-radius: 30px;
+    z-index: 100;
+    border: 1px solid var(--border);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  }
+
+  .nav button {
+    background: var(--orange);
+    color: var(--text);
+    border: none;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .nav button:hover { background: var(--orange-dark); transform: scale(1.1); }
+  .nav button:disabled { opacity: 0.3; cursor: not-allowed; transform: none; }
+
+  .nav .counter {
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 700;
+    min-width: 50px;
+    text-align: center;
+    font-family: 'Arial Black', sans-serif;
+  }
+
+  .nav .fullscreen-btn { background: var(--bg-card); border: 1px solid var(--border); }
+  .nav .fullscreen-btn:hover { background: var(--bg-card-hover); }
+
+  .progress {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--orange) 0%, var(--orange-light) 100%);
+    z-index: 200;
+    transition: width 0.4s ease;
+    box-shadow: 0 0 10px var(--orange);
+  }
+
+  .indicators {
+    position: fixed;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 6px;
+    z-index: 100;
+  }
+
+  .indicator-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .indicator-dot.active {
+    background: var(--orange);
+    width: 28px;
+    border-radius: 4px;
+    box-shadow: 0 0 8px var(--orange);
+  }
+
+  .indicator-dot:hover { background: rgba(255,255,255,0.5); }
+
+  @media (max-width: 900px) {
+    .slide { padding: 30px 28px; }
+    .slide h1 { font-size: 40px; }
+    .slide h2 { font-size: 28px; }
+    .slide-title h1 { font-size: 56px; }
+    .slide-end h1 { font-size: 56px; }
+    .overview-interactive, .tech-interactive, .admin-interactive,
+    .team-interactive, .analysis-grid, .summary-list { grid-template-columns: 1fr; gap: 12px; }
+    .title-burger { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+<div class="indicators" id="indicators"></div>
+
+<div class="presentation" id="presentation">
+
+  <!-- SLIDE 1 — TITLE -->
+  <div class="slide slide-title active" data-slide="1">
+    <svg class="title-burger" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="100" cy="60" rx="78" ry="38" fill="#EA580C"/>
+      <ellipse cx="100" cy="55" rx="78" ry="38" fill="#FB923C"/>
+      <ellipse cx="75" cy="42" rx="3" ry="2" fill="#FFFFFF" opacity="0.7"/>
+      <ellipse cx="100" cy="38" rx="3" ry="2" fill="#FFFFFF" opacity="0.7"/>
+      <ellipse cx="125" cy="44" rx="3" ry="2" fill="#FFFFFF" opacity="0.7"/>
+      <ellipse cx="85" cy="50" rx="3" ry="2" fill="#FFFFFF" opacity="0.7"/>
+      <ellipse cx="115" cy="48" rx="3" ry="2" fill="#FFFFFF" opacity="0.7"/>
+      <path d="M 22 78 Q 35 70 50 78 Q 65 70 80 78 Q 95 70 110 78 Q 125 70 140 78 Q 155 70 170 78 L 178 88 L 22 88 Z" fill="#4ade80"/>
+      <path d="M 25 88 L 175 88 L 170 100 Q 100 108 30 100 Z" fill="#fbbf24"/>
+      <ellipse cx="100" cy="110" rx="75" ry="14" fill="#7c2d12"/>
+      <ellipse cx="100" cy="108" rx="75" ry="14" fill="#92400e"/>
+      <ellipse cx="60" cy="128" rx="14" ry="6" fill="#ef4444"/>
+      <ellipse cx="100" cy="128" rx="14" ry="6" fill="#ef4444"/>
+      <ellipse cx="140" cy="128" rx="14" ry="6" fill="#ef4444"/>
+      <ellipse cx="100" cy="148" rx="78" ry="28" fill="#C2410C"/>
+      <ellipse cx="100" cy="146" rx="78" ry="26" fill="#EA580C"/>
+    </svg>
+    <h1>Burger Primo</h1>
+    <div class="accent-bar"></div>
+    <p class="subtitle">Veebirakendus restoranile</p>
+    <p class="authors">TAANIEL · ROBBY · KEN-MARTTI</p>
+    <div class="slide-number">01 / 10</div>
+    <div class="slide-brand">LÕPUTÖÖ ESITLUS</div>
+  </div>
+
+  <!-- SLIDE 2 — PROJEKTI ÜLEVAADE -->
+  <div class="slide" data-slide="2">
+    <h2>Projekti ülevaade</h2>
+    <div class="overview-interactive">
+      <div class="overview-tabs">
+        <div class="overview-tab active" data-panel="1">
+          <div class="tab-num">1</div>
+          <div>
+            <h4>PROBLEEM</h4>
+            <div class="tab-hint">Algusolukord</div>
+          </div>
+        </div>
+        <div class="overview-tab" data-panel="2">
+          <div class="tab-num">2</div>
+          <div>
+            <h4>EESMÄRK</h4>
+            <div class="tab-hint">Mida soovime saavutada</div>
+          </div>
+        </div>
+        <div class="overview-tab" data-panel="3">
+          <div class="tab-num">3</div>
+          <div>
+            <h4>LAHENDUS</h4>
+            <div class="tab-hint">Meie pakutud süsteem</div>
+          </div>
+        </div>
+      </div>
+      <div class="overview-content">
+        <div class="overview-panel active" data-panel="1">
+          <h3>PROBLEEM</h3>
+          <p>Burger Primo on <span class="highlight">Kuressaares</span> asuv restoran, millel puudus keskne haldussüsteem, veebileht ning üleüldiselt ettevõtte veebinähtavus.</p>
+        </div>
+        <div class="overview-panel" data-panel="2">
+          <h3>EESMÄRK</h3>
+          <p>Luua <span class="highlight">täisfunktsionaalne haldussüsteem</span> Kuressaare restoranile Burger Primo, mis katab kogu tellimisprotsessi algusest lõpuni — menüüst kohale toimetamiseni.</p>
+        </div>
+        <div class="overview-panel" data-panel="3">
+          <h3>LAHENDUS</h3>
+          <p><span class="highlight">Laravel + Vue.js</span> rakendus koos adminpaneeli ja statistikaga, kulleri ja tellimuste reaalajas jälgimisega, arvustuste süsteemiga ning <span class="highlight">Stripe makse</span> integratsiooniga.</p>
+        </div>
+      </div>
+    </div>
+    <div class="slide-number">02 / 10</div>
+    <div class="slide-brand">BURGER PRIMO</div>
+  </div>
+
+  <!-- SLIDE 3 — TEHNOLOOGIAD -->
+  <div class="slide" data-slide="3">
+    <h2>Kasutatud tehnoloogiad</h2>
+    <div class="tech-interactive">
+      <div class="tech-stack">
+        <div class="stack-header">
+          <div class="stack-icon">
+            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="6" rx="1"/><rect x="3" y="14" width="18" height="6" rx="1"/><line x1="7" y1="7" x2="7.01" y2="7"/><line x1="7" y1="17" x2="7.01" y2="17"/></svg>
+          </div>
+          <h3>BACKEND</h3>
+        </div>
+        <div class="tech-list">
+          <div class="tech-item"><span class="tech-dot"></span><span class="tech-name">Laravel 12</span><span class="tech-desc">PHP raamistik</span></div>
+          <div class="tech-item"><span class="tech-dot"></span><span class="tech-name">MySQL</span><span class="tech-desc">andmebaas</span></div>
+          <div class="tech-item"><span class="tech-dot"></span><span class="tech-name">Inertia.js</span><span class="tech-desc">SPA bridge</span></div>
+          <div class="tech-item"><span class="tech-dot"></span><span class="tech-name">Stripe API</span><span class="tech-desc">makseid</span></div>
+        </div>
+        <div class="tech-note">Server-side raamistik ja andmebaas. Inertia.js võimaldab SPA kogemuse ilma eraldi API-ta.</div>
+      </div>
+
+      <div class="tech-stack">
+        <div class="stack-header">
+          <div class="stack-icon">
+            <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/><polyline points="7 9 9.5 11.5 7 14"/><line x1="12" y1="14" x2="16" y2="14"/></svg>
+          </div>
+          <h3>FRONTEND</h3>
+        </div>
+        <div class="tech-list">
+          <div class="tech-item"><span class="tech-dot"></span><span class="tech-name">Vue 3</span><span class="tech-desc">reaktiivne UI</span></div>
+          <div class="tech-item"><span class="tech-dot"></span><span class="tech-name">TypeScript</span><span class="tech-desc">tüübikontroll</span></div>
+          <div class="tech-item"><span class="tech-dot"></span><span class="tech-name">Tailwind CSS v4</span><span class="tech-desc">stiilid</span></div>
+          <div class="tech-item"><span class="tech-dot"></span><span class="tech-name">Chart.js</span><span class="tech-desc">graafikud</span></div>
+          <div class="tech-item"><span class="tech-dot"></span><span class="tech-name">shadcn/ui + Vite</span><span class="tech-desc">komponendid</span></div>
+        </div>
+        <div class="tech-note">Moodne reaktiivne kasutajaliides koos tüübikontrolli ja kiire arendusprotsessiga.</div>
+      </div>
+
+      <div class="tech-stack">
+        <div class="stack-header">
+          <div class="stack-icon">
+            <svg viewBox="0 0 24 24"><path d="M19 11h2a2 2 0 0 1 0 4h-2v3a2 2 0 0 1-2 2h-3v-2a2 2 0 0 0-4 0v2H7a2 2 0 0 1-2-2v-3H3a2 2 0 0 1 0-4h2V8a2 2 0 0 1 2-2h3V4a2 2 0 0 1 4 0v2h3a2 2 0 0 1 2 2v3z"/></svg>
+          </div>
+          <h3>LISAD</h3>
+        </div>
+        <div class="tech-list">
+          <div class="tech-item"><span class="tech-dot"></span><span class="tech-name">OpenStreetMap</span><span class="tech-desc">kaardid</span></div>
+          <div class="tech-item"><span class="tech-dot"></span><span class="tech-name">Leaflet</span><span class="tech-desc">kaardi-JS</span></div>
+          <div class="tech-item"><span class="tech-dot"></span><span class="tech-name">Pusher / WebSockets</span><span class="tech-desc">reaalaeg</span></div>
+          <div class="tech-item"><span class="tech-dot"></span><span class="tech-name">Web Push API</span><span class="tech-desc">teavitused</span></div>
+          <div class="tech-item"><span class="tech-dot"></span><span class="tech-name">PWA</span><span class="tech-desc">mobiili-tugi</span></div>
+        </div>
+        <div class="tech-note">Kasutasime Claude Code-i koodi ülevaatamiseks ja raskemate ülesannete lahendamiseks.</div>
+      </div>
+    </div>
+    <div class="slide-number">03 / 10</div>
+    <div class="slide-brand">BURGER PRIMO</div>
+  </div>
+
+  <!-- SLIDE 4 — PÕHIFUNKTSIONAALSUS (INTERAKTIIVNE DIAGRAMM) -->
+  <div class="slide" data-slide="4">
+    <h2>Põhifunktsionaalsus</h2>
+    <div class="features-diagram">
+      <div class="features-hint">Klõpsa või liigu hiirega elementidele</div>
+      <svg class="features-svg" viewBox="0 0 900 540" xmlns="http://www.w3.org/2000/svg">
+        <!-- Ühendusjooned keskmest sõlmedeni -->
+        <line class="feature-line" x1="450" y1="270" x2="200" y2="140"/>
+        <line class="feature-line" x1="450" y1="270" x2="450" y2="115"/>
+        <line class="feature-line" x1="450" y1="270" x2="700" y2="140"/>
+        <line class="feature-line" x1="450" y1="270" x2="200" y2="400"/>
+        <line class="feature-line" x1="450" y1="270" x2="450" y2="425"/>
+        <line class="feature-line" x1="450" y1="270" x2="700" y2="400"/>
+
+        <!-- Keskmine sõlm -->
+        <g class="feature-center">
+          <rect x="360" y="210" width="180" height="120" rx="16" ry="16"/>
+          <text x="450" y="258">BURGER</text>
+          <text x="450" y="290">PRIMO</text>
+        </g>
+
+        <!-- Burger Builder -->
+        <g class="feature-node" data-feature="builder">
+          <rect class="bg" x="120" y="90" width="160" height="110" rx="14" ry="14"/>
+          <!-- Burger ikoon -->
+          <g class="node-icon" transform="translate(170, 110)">
+            <path d="M 5 12 Q 5 6 15 6 L 45 6 Q 55 6 55 12 L 55 14 L 5 14 Z"/>
+            <line x1="5" y1="18" x2="55" y2="18"/>
+            <line x1="5" y1="22" x2="55" y2="22"/>
+            <path d="M 5 26 Q 5 32 15 32 L 45 32 Q 55 32 55 26 L 55 24 L 5 24 Z"/>
+          </g>
+          <text class="label" x="200" y="180">Burger Builder</text>
+        </g>
+
+        <!-- Ostukorv -->
+        <g class="feature-node" data-feature="cart">
+          <rect class="bg" x="370" y="65" width="160" height="110" rx="14" ry="14"/>
+          <g class="node-icon" transform="translate(420, 85)">
+            <path d="M 0 0 L 10 0 L 14 22 L 50 22 L 54 6 L 14 6"/>
+            <circle cx="22" cy="32" r="3" fill="currentColor" stroke="none"/>
+            <circle cx="44" cy="32" r="3" fill="currentColor" stroke="none"/>
+          </g>
+          <text class="label" x="450" y="155">Ostukorv</text>
+        </g>
+
+        <!-- Kuller / Asukoht -->
+        <g class="feature-node" data-feature="courier">
+          <rect class="bg" x="620" y="90" width="160" height="110" rx="14" ry="14"/>
+          <g class="node-icon" transform="translate(675, 105)">
+            <path d="M 25 0 C 13 0 4 9 4 21 C 4 35 25 55 25 55 C 25 55 46 35 46 21 C 46 9 37 0 25 0 Z"/>
+            <circle cx="25" cy="21" r="7"/>
+          </g>
+          <text class="label" x="700" y="180">Kuller</text>
+        </g>
+
+        <!-- Arvustused / Täht -->
+        <g class="feature-node" data-feature="reviews">
+          <rect class="bg" x="120" y="350" width="160" height="110" rx="14" ry="14"/>
+          <g class="node-icon" transform="translate(173, 365)">
+            <polygon points="27,2 33,20 53,20 37,32 43,52 27,40 11,52 17,32 1,20 21,20"/>
+          </g>
+          <text class="label" x="200" y="440">Arvustused</text>
+        </g>
+
+        <!-- Teadaanded / Megafon -->
+        <g class="feature-node" data-feature="announcements">
+          <rect class="bg" x="370" y="375" width="160" height="110" rx="14" ry="14"/>
+          <g class="node-icon" transform="translate(420, 390)">
+            <path d="M 0 14 L 0 28 L 14 28 L 36 42 L 36 0 L 14 14 Z"/>
+            <path d="M 42 12 Q 50 21 42 30"/>
+            <path d="M 48 6 Q 60 21 48 36"/>
+          </g>
+          <text class="label" x="450" y="465">Teadaanded</text>
+        </g>
+
+        <!-- Adminpaneel / Hammasratas -->
+        <g class="feature-node" data-feature="admin">
+          <rect class="bg" x="620" y="350" width="160" height="110" rx="14" ry="14"/>
+          <g class="node-icon" transform="translate(675, 365)">
+            <path d="M25 3 L28 3 L29 9 Q31 9.5 33 10.5 L37.5 6.5 L40 9 L36 13.5 Q37 15.5 37.5 17.5 L43 18.5 L43 22 L37.5 23 Q37 25 36 27 L40 31.5 L37.5 34 L33 30 Q31 31 29 31.5 L28 37 L25 37 L22 37 L21 31.5 Q19 31 17 30 L12.5 34 L10 31.5 L14 27 Q13 25 12.5 23 L7 22 L7 18.5 L12.5 17.5 Q13 15.5 14 13.5 L10 9 L12.5 6.5 L17 10.5 Q19 9.5 21 9 L22 3 Z"/>
+            <circle cx="25" cy="20" r="6"/>
+          </g>
+          <text class="label" x="700" y="440">Adminpaneel</text>
+        </g>
+      </svg>
+
+      <div class="feature-detail" id="featureDetail">
+        <h4 id="featureTitle">Burger Builder</h4>
+        <p id="featureDesc">Kasutaja loob oma burgeri valides koostisosi. Reaalajas SVG eelvaade näitab burgeri kuju visuaalselt.</p>
+      </div>
+    </div>
+    <div class="slide-number">04 / 10</div>
+    <div class="slide-brand">BURGER PRIMO</div>
+  </div>
+
+  <!-- SLIDE 5 — ADMINPANEEL -->
+  <div class="slide" data-slide="5">
+    <h2>Adminpaneel</h2>
+    <div class="admin-interactive">
+      <div class="admin-modules">
+        <h3>MOODULID</h3>
+        <div class="module-item">
+          <div class="module-icon">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+          </div>
+          <div class="module-text">
+            <strong>Dashboard</strong>
+            <span>Käive, tellimuste arv, kasvuprotsent, graafikud</span>
+          </div>
+        </div>
+        <div class="module-item">
+          <div class="module-icon">
+            <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="15" y2="16"/></svg>
+          </div>
+          <div class="module-text">
+            <strong>Tellimuste haldus</strong>
+            <span>Staatused, ajalugu, kuller</span>
+          </div>
+        </div>
+        <div class="module-item">
+          <div class="module-icon">
+            <svg viewBox="0 0 24 24"><path d="M3 11h18"/><path d="M12 11V3"/><path d="M5 11a7 7 0 0 0 14 0"/><line x1="5" y1="21" x2="19" y2="21"/></svg>
+          </div>
+          <div class="module-text">
+            <strong>Menüü haldus</strong>
+            <span>Kategooriad, tooted, saadavus</span>
+          </div>
+        </div>
+        <div class="module-item">
+          <div class="module-icon">
+            <svg viewBox="0 0 24 24"><path d="M4 8 L4 18 Q 4 20 6 20 L 18 20 Q 20 20 20 18 L 20 8"/><path d="M2 8 L22 8 L19 4 L5 4 Z"/><line x1="9" y1="12" x2="9" y2="16"/><line x1="15" y1="12" x2="15" y2="16"/></svg>
+          </div>
+          <div class="module-text">
+            <strong>Koostisainete haldus</strong>
+            <span>Burger Builder koostisosad</span>
+          </div>
+        </div>
+        <div class="module-item">
+          <div class="module-icon">
+            <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </div>
+          <div class="module-text">
+            <strong>Lisandite haldus</strong>
+            <span>Lisandid toodetele</span>
+          </div>
+        </div>
+        <div class="module-item">
+          <div class="module-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 19 L 3 12 L 12 5 L 21 12 Z"/><path d="M7 14 L 12 19 L 17 14"/></svg>
+          </div>
+          <div class="module-text">
+            <strong>Kohandatud burgerid</strong>
+            <span>Klientide tehtud burgerite ülevaade</span>
+          </div>
+        </div>
+        <div class="module-item">
+          <div class="module-icon">
+            <svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="4"/><path d="M2 21 Q 2 14 9 14 Q 16 14 16 21"/><circle cx="17" cy="6" r="3"/><path d="M14 14 Q 22 14 22 20"/></svg>
+          </div>
+          <div class="module-text">
+            <strong>Kasutajate haldus</strong>
+            <span>Konto info ja õigused</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="admin-roles">
+        <h3>ROLLID</h3>
+        <div class="role-card">
+          <div class="role-badge">FULL</div>
+          <h4>Super Admin</h4>
+          <p>Täielik ligipääs kõikidele moodulitele</p>
+        </div>
+        <div class="role-card">
+          <div class="role-badge">LIMITED</div>
+          <h4>Subadmin</h4>
+          <p>Ligipääs valitud moodulitele</p>
+        </div>
+        <div class="role-card">
+          <div class="role-badge">COURIER</div>
+          <h4>Kuller</h4>
+          <p>Aktiivsed tellimused ja kaart</p>
+        </div>
+      </div>
+    </div>
+    <div class="slide-number">05 / 10</div>
+    <div class="slide-brand">BURGER PRIMO</div>
+  </div>
+
+  <!-- SLIDE 6 — TELLIMUSE VOOG -->
+  <div class="slide" data-slide="6">
+    <h2>Tellimuse voog</h2>
+    <div class="flow-interactive">
+      <div class="flow-hint">Klõpsa sammudele et neid esile tõsta</div>
+      <svg class="flow-svg" viewBox="0 0 1200 200" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+            <polygon points="0 0, 10 3, 0 6" fill="#EA580C"/>
+          </marker>
+        </defs>
+
+        <line class="flow-arrow" x1="125" y1="100" x2="165" y2="100"/>
+        <line class="flow-arrow" x1="285" y1="100" x2="325" y2="100"/>
+        <line class="flow-arrow" x1="445" y1="100" x2="485" y2="100"/>
+        <line class="flow-arrow" x1="605" y1="100" x2="645" y2="100"/>
+        <line class="flow-arrow" x1="765" y1="100" x2="805" y2="100"/>
+        <line class="flow-arrow" x1="925" y1="100" x2="965" y2="100"/>
+
+        <g class="flow-node-group" data-step="1">
+          <circle class="flow-node-bg" cx="80" cy="100" r="42"/>
+          <text class="flow-node-num" x="80" y="100">1</text>
+          <text class="flow-node-label" x="80" y="170">Menüü /</text>
+          <text class="flow-node-label" x="80" y="186">Burger Builder</text>
+        </g>
+
+        <g class="flow-node-group" data-step="2">
+          <circle class="flow-node-bg" cx="240" cy="100" r="42"/>
+          <text class="flow-node-num" x="240" y="100">2</text>
+          <text class="flow-node-label" x="240" y="170">Ostukorv</text>
+        </g>
+
+        <g class="flow-node-group" data-step="3">
+          <circle class="flow-node-bg" cx="400" cy="100" r="42"/>
+          <text class="flow-node-num" x="400" y="100">3</text>
+          <text class="flow-node-label" x="400" y="170">Stripe</text>
+          <text class="flow-node-label" x="400" y="186">makse</text>
+        </g>
+
+        <g class="flow-node-group" data-step="4">
+          <circle class="flow-node-bg" cx="560" cy="100" r="42"/>
+          <text class="flow-node-num" x="560" y="100">4</text>
+          <text class="flow-node-label" x="560" y="170">Tellimus</text>
+          <text class="flow-node-label" x="560" y="186">loodud</text>
+        </g>
+
+        <g class="flow-node-group" data-step="5">
+          <circle class="flow-node-bg" cx="720" cy="100" r="42"/>
+          <text class="flow-node-num" x="720" y="100">5</text>
+          <text class="flow-node-label" x="720" y="170">Admin</text>
+          <text class="flow-node-label" x="720" y="186">kinnitab</text>
+        </g>
+
+        <g class="flow-node-group" data-step="6">
+          <circle class="flow-node-bg" cx="880" cy="100" r="42"/>
+          <text class="flow-node-num" x="880" y="100">6</text>
+          <text class="flow-node-label" x="880" y="170">Kuller</text>
+          <text class="flow-node-label" x="880" y="186">tarnib</text>
+        </g>
+
+        <g class="flow-node-group" data-step="7">
+          <circle class="flow-node-bg" cx="1040" cy="100" r="42"/>
+          <text class="flow-node-num" x="1040" y="100">7</text>
+          <text class="flow-node-label" x="1040" y="170">Kätte</text>
+          <text class="flow-node-label" x="1040" y="186">toimetatud</text>
+        </g>
+      </svg>
+
+      <div class="status-section">
+        <h3>TELLIMUSE STAATUSED</h3>
+        <div class="status-chain">
+          <span class="status-chip">Ootel</span>
+          <span class="status-arrow">→</span>
+          <span class="status-chip">Kinnitatud</span>
+          <span class="status-arrow">→</span>
+          <span class="status-chip">Valmistamisel</span>
+          <span class="status-arrow">→</span>
+          <span class="status-chip">Valmis</span>
+          <span class="status-arrow">→</span>
+          <span class="status-chip done">Täidetud</span>
+        </div>
+        <div class="status-chain">
+          <span class="status-chip alert">Tagasi lükatud</span>
+          <span class="status-chip alert">Tühistatud</span>
+          <span class="status-note">— eriolukordade staatused</span>
+        </div>
+      </div>
+    </div>
+    <div class="slide-number">06 / 10</div>
+    <div class="slide-brand">BURGER PRIMO</div>
+  </div>
+
+  <!-- SLIDE 7 — MEESKONNATÖÖ -->
+  <div class="slide" data-slide="7">
+    <h2>Meeskonnatöö</h2>
+    <div class="team-interactive">
+      <div class="team-card">
+        <div class="avatar">T</div>
+        <h3>Taaniel</h3>
+        <div class="team-role">ARHITEKT & BACKEND</div>
+        <ul>
+          <li>Projekti arhitektuur ja alus</li>
+          <li>Stripe makseintegratsioon</li>
+          <li>Adminpaneeli dashboard</li>
+          <li>Rollipõhine autentimine</li>
+          <li>Subadmin logimine</li>
+          <li>Web Push teavitused</li>
+        </ul>
+      </div>
+
+      <div class="team-card">
+        <div class="avatar">R</div>
+        <h3>Robby</h3>
+        <div class="team-role">KAARDID & REAALAEG</div>
+        <ul>
+          <li>Kulleri jälgimissüsteem</li>
+          <li>OpenStreetMap + Leaflet kaardid</li>
+          <li>Tellimuste reaalajas uuendused</li>
+          <li>Burger Builder (SVG eelvaade)</li>
+        </ul>
+      </div>
+
+      <div class="team-card">
+        <div class="avatar">K</div>
+        <h3>Ken-Martti</h3>
+        <div class="team-role">FRONTEND & SISU</div>
+        <ul>
+          <li>Menüü ja kategooriate haldus</li>
+          <li>Ingliskeelne tõlge lehel</li>
+          <li>Arvustuste süsteem</li>
+          <li>Kontaktileht ja -vorm</li>
+          <li>Pisivigade leidmine ja parandamine</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-number">07 / 10</div>
+    <div class="slide-brand">BURGER PRIMO</div>
+  </div>
+
+  <!-- SLIDE 8 — TULEMUSTEANALÜÜS -->
+  <div class="slide" data-slide="8">
+    <h2>Tulemusteanalüüs</h2>
+    <div class="analysis-grid">
+      <div class="analysis-card">
+        <div class="big-num">1</div>
+        <span class="indicator good">POSITIIVNE</span>
+        <h3>Mis läks hästi</h3>
+        <p>Restorani omaniku poolt väljatoodud soovid sai kõik edukalt lahendatud. Koostöö sujus hästi. Töö oli hästi jaotatud.</p>
+      </div>
+      <div class="analysis-card">
+        <div class="big-num">2</div>
+        <span class="indicator warn">VÄLJAKUTSE</span>
+        <h3>Mida oleks saanud paremini?</h3>
+        <p>Kõige suuremaks vaenlaseks oli aja planeerimine. Tuli tihti juhuseid, kus oli planeeritud sprint, kuid lükkus edasi. Tekkis ka juhuseid, kus oli eriarvamusi kuidas mida teha.</p>
+      </div>
+      <div class="analysis-card">
+        <div class="big-num">3</div>
+        <span class="indicator action">TEGEVUSKAVA</span>
+        <h3>Kuidas probleeme lahendada?</h3>
+        <p>Tuleks kinni pidada aegadest ning arvestama tiimikaaslastega. Eriarvamuste korral tuleks nõu pidada ettevõtte omanikuga, kellele projekti valmistame.</p>
+      </div>
+    </div>
+    <div class="slide-number">08 / 10</div>
+    <div class="slide-brand">BURGER PRIMO</div>
+  </div>
+
+  <!-- SLIDE 9 — KOKKUVÕTE -->
+  <div class="slide" data-slide="9">
+    <h2>Kokkuvõte</h2>
+    <div class="summary-list">
+      <div class="summary-item">
+        <div class="plus">+</div>
+        <p>Loodud täisfunktsionaalne veebirakendus restoranile Burger Primo</p>
+      </div>
+      <div class="summary-item">
+        <div class="plus">+</div>
+        <p>Kohandatav Burger Builder reaalajas eelvaatega</p>
+      </div>
+      <div class="summary-item">
+        <div class="plus">+</div>
+        <p>Stripe makse integratsioon turvaliseks veebimakseks</p>
+      </div>
+      <div class="summary-item">
+        <div class="plus">+</div>
+        <p>Kulleri reaalajas jälgimine kaardil</p>
+      </div>
+      <div class="summary-item">
+        <div class="plus">+</div>
+        <p>Rollipõhine adminpaneel — super admin, subadmin, kuller</p>
+      </div>
+      <div class="summary-item">
+        <div class="plus">+</div>
+        <p>PWA tugi — rakendus töötab mobiilsel seadmel nagu äpp</p>
+      </div>
+      <div class="summary-item" style="grid-column: 1 / -1;">
+        <div class="plus">+</div>
+        <p>Teavitused tellimuse staatuse muutuste kohta</p>
+      </div>
+    </div>
+    <div class="slide-number">09 / 10</div>
+    <div class="slide-brand">BURGER PRIMO</div>
+  </div>
+
+  <!-- SLIDE 10 — TÄNAME -->
+  <div class="slide slide-end" data-slide="10">
+    <svg class="burger-end" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="100" cy="60" rx="78" ry="38" fill="#EA580C"/>
+      <ellipse cx="100" cy="55" rx="78" ry="38" fill="#FB923C"/>
+      <ellipse cx="75" cy="42" rx="3" ry="2" fill="#FFFFFF" opacity="0.7"/>
+      <ellipse cx="100" cy="38" rx="3" ry="2" fill="#FFFFFF" opacity="0.7"/>
+      <ellipse cx="125" cy="44" rx="3" ry="2" fill="#FFFFFF" opacity="0.7"/>
+      <path d="M 22 78 Q 35 70 50 78 Q 65 70 80 78 Q 95 70 110 78 Q 125 70 140 78 Q 155 70 170 78 L 178 88 L 22 88 Z" fill="#4ade80"/>
+      <path d="M 25 88 L 175 88 L 170 100 Q 100 108 30 100 Z" fill="#fbbf24"/>
+      <ellipse cx="100" cy="110" rx="75" ry="14" fill="#7c2d12"/>
+      <ellipse cx="100" cy="108" rx="75" ry="14" fill="#92400e"/>
+      <ellipse cx="60" cy="128" rx="14" ry="6" fill="#ef4444"/>
+      <ellipse cx="100" cy="128" rx="14" ry="6" fill="#ef4444"/>
+      <ellipse cx="140" cy="128" rx="14" ry="6" fill="#ef4444"/>
+      <ellipse cx="100" cy="148" rx="78" ry="28" fill="#C2410C"/>
+      <ellipse cx="100" cy="146" rx="78" ry="26" fill="#EA580C"/>
+    </svg>
+    <h1>Täname kuulamast!</h1>
+    <div class="accent-bar"></div>
+    <p>KÜSIMUSED?</p>
+    <div class="slide-number">10 / 10</div>
+    <div class="slide-brand">BURGER PRIMO</div>
+  </div>
+
+</div>
+
+<div class="nav">
+  <button id="prevBtn" title="Eelmine (←)">‹</button>
+  <span class="counter" id="counter">1 / 10</span>
+  <button id="nextBtn" title="Järgmine (→)">›</button>
+  <button class="fullscreen-btn" id="fullscreenBtn" title="Täisekraan (F)">⛶</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const totalSlides = slides.length;
+  let currentSlide = 0;
+
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const fullscreenBtn = document.getElementById('fullscreenBtn');
+  const counter = document.getElementById('counter');
+  const progress = document.getElementById('progress');
+  const indicatorsContainer = document.getElementById('indicators');
+
+  for (let i = 0; i < totalSlides; i++) {
+    const dot = document.createElement('div');
+    dot.classList.add('indicator-dot');
+    if (i === 0) dot.classList.add('active');
+    dot.addEventListener('click', () => goToSlide(i));
+    indicatorsContainer.appendChild(dot);
+  }
+
+  function updateView() {
+    slides.forEach((slide, i) => {
+      slide.classList.remove('active', 'prev');
+      if (i === currentSlide) slide.classList.add('active');
+      else if (i < currentSlide) slide.classList.add('prev');
+    });
+
+    counter.textContent = `${currentSlide + 1} / ${totalSlides}`;
+    progress.style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+
+    document.querySelectorAll('.indicator-dot').forEach((dot, i) => {
+      dot.classList.toggle('active', i === currentSlide);
+    });
+
+    prevBtn.disabled = currentSlide === 0;
+    nextBtn.disabled = currentSlide === totalSlides - 1;
+  }
+
+  function goToSlide(n) {
+    if (n < 0 || n >= totalSlides) return;
+    currentSlide = n;
+    updateView();
+  }
+
+  function nextSlide() { if (currentSlide < totalSlides - 1) { currentSlide++; updateView(); } }
+  function prevSlide() { if (currentSlide > 0) { currentSlide--; updateView(); } }
+
+  prevBtn.addEventListener('click', prevSlide);
+  nextBtn.addEventListener('click', nextSlide);
+
+  fullscreenBtn.addEventListener('click', () => {
+    if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(() => {});
+    else document.exitFullscreen();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    switch(e.key) {
+      case 'ArrowRight': case ' ': case 'PageDown': e.preventDefault(); nextSlide(); break;
+      case 'ArrowLeft': case 'PageUp': e.preventDefault(); prevSlide(); break;
+      case 'Home': e.preventDefault(); goToSlide(0); break;
+      case 'End': e.preventDefault(); goToSlide(totalSlides - 1); break;
+      case 'f': case 'F': fullscreenBtn.click(); break;
+      case 'Escape': if (document.fullscreenElement) document.exitFullscreen(); break;
+    }
+  });
+
+  let touchStartX = 0, touchEndX = 0;
+  document.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; });
+  document.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    if (touchEndX < touchStartX - 50) nextSlide();
+    if (touchEndX > touchStartX + 50) prevSlide();
+  });
+
+  // INTERAKTIIVNE: PROJEKTI ÜLEVAADE
+  document.querySelectorAll('.overview-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const panelId = tab.dataset.panel;
+      document.querySelectorAll('.overview-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.overview-panel').forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      document.querySelector(`.overview-panel[data-panel="${panelId}"]`).classList.add('active');
+    });
+  });
+
+  // INTERAKTIIVNE: PÕHIFUNKTSIONAALSUS DIAGRAMM
+  const featureData = {
+    builder: {
+      title: 'Burger Builder',
+      desc: 'Kasutaja loob oma burgeri valides koostisosi. Reaalajas SVG eelvaade näitab burgeri kuju visuaalselt.'
+    },
+    cart: {
+      title: 'Ostukorv & Makse',
+      desc: 'Täisfunktsionaalne ostukorv, tarneaadressi valik kaardilt, Stripe kaardimaksega.'
+    },
+    courier: {
+      title: 'Kulleri jälgimine',
+      desc: 'Kuller tarnib tellimust — klient näeb kulleri asukohta reaalajas kaardil koos push-teavitustega.'
+    },
+    reviews: {
+      title: 'Arvustused',
+      desc: 'Kliendid saavad lisada arvustusi. Arvustused kuvatakse avalikul lehel.'
+    },
+    announcements: {
+      title: 'Teadaanded',
+      desc: 'Admin avaldab teadaanded, mis kuvatakse bännerina kõigile kasutajatele veebilehel.'
+    },
+    admin: {
+      title: 'Adminpaneel',
+      desc: 'Adminpaneel autoriseeritud kasutajatele toodete ja funktsioonide haldamiseks.'
+    }
+  };
+
+  const featureDetail = document.getElementById('featureDetail');
+  const featureTitle = document.getElementById('featureTitle');
+  const featureDesc = document.getElementById('featureDesc');
+
+  document.querySelectorAll('.feature-node').forEach(node => {
+    const showDetail = () => {
+      const feature = node.dataset.feature;
+      const data = featureData[feature];
+      document.querySelectorAll('.feature-node').forEach(n => n.classList.remove('active'));
+      node.classList.add('active');
+      featureTitle.textContent = data.title;
+      featureDesc.textContent = data.desc;
+      featureDetail.classList.add('show');
+    };
+    node.addEventListener('click', (e) => { e.stopPropagation(); showDetail(); });
+    node.addEventListener('mouseenter', showDetail);
+  });
+
+  // INTERAKTIIVNE: TELLIMUSE VOOG
+  document.querySelectorAll('.flow-node-group').forEach(step => {
+    step.addEventListener('click', () => {
+      const stepNum = parseInt(step.dataset.step);
+      document.querySelectorAll('.flow-node-group').forEach((s, i) => {
+        s.classList.toggle('active', i < stepNum);
+      });
+    });
+  });
+
+  updateView();
+</script>
+
+</body>
+</html>
