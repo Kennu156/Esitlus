@@ -218,19 +218,36 @@ h2.ttl span{color:var(--a)}
 .anac h3{font-family:var(--fb);font-size:2.4vh;font-weight:500;color:var(--tx);margin-bottom:2vh;position:relative;z-index:1;line-height:1.3}
 .anac p{font-family:var(--fb);font-size:2.1vh;line-height:1.7;color:var(--mu);position:relative;z-index:1;flex:1}
 
-/* SLIDE 9 — SUMMARY — fixed layout, arrow navigation */
+/* SLIDE 9 — SUMMARY */
 .s9outer{flex:1;display:flex;flex-direction:column;min-height:0;gap:var(--gap)}
 .s9grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);flex:1;min-height:0}
-.sitem{display:flex;align-items:center;gap:2vw;background:var(--card);border:1px solid var(--line);border-radius:3px;padding:0 2.5vw;transition:all .25s;position:relative}
+.sitem{display:flex;align-items:center;gap:2vw;background:var(--card);border:1px solid var(--line);border-radius:3px;padding:0 2.5vw;transition:border-color .25s,background .25s;position:relative}
 .sitem:hover{border-color:var(--line2)}
 .sitem.full{grid-column:1/-1}
-/* active state for arrow navigation */
-.sitem.active-item{border-color:var(--a);box-shadow:inset 3px 0 0 var(--a);background:var(--card2)}
-.sitem.active-item .sico{transform:rotate(90deg);background:var(--a);border-color:var(--a);color:#000}
-.sico{width:4.5vh;height:4.5vh;border-radius:50%;border:1px solid rgba(210,105,30,.3);background:var(--ad);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--fm);font-size:1.8vh;color:var(--a);transition:all .25s;flex-shrink:0}
+.sico{width:4.5vh;height:4.5vh;border-radius:50%;border:1px solid rgba(210,105,30,.3);background:var(--ad);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--fm);font-size:1.8vh;color:var(--a)}
 .sitem p{font-family:var(--fb);font-size:2.2vh;color:var(--tx);line-height:1.45}
-/* hint for slide 9 navigation */
 .s9hint{font-family:var(--fm);font-size:1.1vh;letter-spacing:2px;color:var(--di);text-align:center;flex-shrink:0}
+
+/* ── Universal keyboard-highlight active states ── */
+/* slide 2 tabs */
+.tbtn.hl-on{border-color:var(--a)!important;box-shadow:inset 3px 0 0 var(--a);background:var(--card2)!important}
+.tbtn.hl-on .tnum{border-color:var(--a);color:var(--a)}
+/* slide 3 tech cards */
+.tcard.hl-on{border-color:var(--a)!important;box-shadow:0 0 0 1px var(--a)}
+/* slide 4 feature nodes — use existing .fnode.on */
+/* slide 5 admin modules */
+.mitem.hl-on{background:var(--card2)!important;border-color:var(--a)!important}
+.mitem.hl-on .mico{background:var(--a);border-color:var(--a)}
+.mitem.hl-on .mico svg{stroke:#000}
+/* slide 6 flow nodes — use existing .fng.on */
+/* slide 7 team cards */
+.tmc.hl-on{border-color:var(--a)!important;transform:translateY(-4px);box-shadow:0 2vh 4vh rgba(0,0,0,.4)}
+.tmc.hl-on::after{background:var(--a)!important}
+/* slide 8 analysis cards */
+.anac.hl-on{border-color:var(--a)!important;box-shadow:inset 3px 0 0 var(--a)}
+.anac.hl-on .ananum{opacity:.12!important}
+/* slide 9 summary items */
+.sitem.hl-on{border-color:var(--a)!important;background:var(--card2)!important}
 
 /* SLIDE 10 — END */
 .s10{justify-content:center;align-items:center;text-align:center;background:radial-gradient(ellipse 70% 70% at 50% 45%,rgba(210,105,30,.09) 0%,var(--bg) 58%)}
@@ -412,7 +429,7 @@ h2.ttl span{color:var(--a)}
   <div class="lbl">Tellimuse voog</div>
   <h2 class="ttl">Kliendist <span>kohaletoimetamiseni</span></h2>
   <div class="s6wrap">
-    <div class="fhint">Klõpsa sammudele et neid järjest aktiveerida</div>
+    <div class="fhint">← → navigeeri sammude vahel</div>
     <svg class="flsvg" viewBox="0 0 1160 150" xmlns="http://www.w3.org/2000/svg">
       <defs><marker id="arh" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="rgba(210,105,30,.5)"/></marker></defs>
       <line class="farr" x1="114" y1="75" x2="154" y2="75"/><line class="farr" x1="274" y1="75" x2="314" y2="75"/><line class="farr" x1="434" y1="75" x2="474" y2="75"/><line class="farr" x1="594" y1="75" x2="634" y2="75"/><line class="farr" x1="754" y1="75" x2="794" y2="75"/><line class="farr" x1="914" y1="75" x2="954" y2="75"/>
@@ -504,29 +521,120 @@ h2.ttl span{color:var(--a)}
 const slides=[...document.querySelectorAll('.slide')],total=slides.length;
 let cur=0;
 
-// Slide 9 item navigation state
-let s9cur=-1;
-const s9items=()=>[...document.querySelectorAll('#s9grid .sitem')];
-const S9_SLIDE=8; // 0-indexed
-
+// ── Dots ──────────────────────────────────────────
 const dotsEl=document.getElementById('dots');
-for(let i=0;i<total;i++){const d=document.createElement('div');d.className='dot'+(i===0?' on':'');d.onclick=()=>go(i);dotsEl.appendChild(d);}
+for(let i=0;i<total;i++){const d=document.createElement('div');d.className='dot'+(i===0?' on':'');d.onclick=()=>goSlide(i);dotsEl.appendChild(d);}
 
-function s9reset(){s9cur=-1;s9items().forEach(x=>x.classList.remove('active-item'));}
-function s9activate(n){
-  const items=s9items();
-  if(n<0){s9cur=-1;items.forEach(x=>x.classList.remove('active-item'));return false;}
-  if(n>=items.length) return false; // signal: go to next slide
-  s9cur=n;
-  items.forEach((x,i)=>x.classList.toggle('active-item',i===n));
-  return true;
+// ── Per-slide inner step definitions ─────────────
+// Each entry: { sel: CSS selector of steppable items, cls: highlight class to toggle,
+//               activate(items,idx): optional custom fn, deactivate(items): optional custom fn }
+// Slide index is 0-based. Slides without entries just advance immediately.
+
+const fd={builder:{t:'Burger Builder',d:'Kasutaja loob oma burgeri valides koostisosi. Reaalajas SVG eelvaade näitab burgeri kuju visuaalselt.'},cart:{t:'Ostukorv & Makse',d:'Täisfunktsionaalne ostukorv, tarneaadressi valik kaardilt, Stripe kaardimaksega.'},courier:{t:'Kulleri jälgimine',d:'Kuller tarnib tellimust — klient näeb kulleri asukohta reaalajas kaardil koos push-teavitustega.'},reviews:{t:'Arvustused',d:'Kliendid saavad lisada arvustusi tähtedega. Arvustused kuvatakse avalikul lehel.'},announcements:{t:'Teadaanded',d:'Admin avaldab teadaanded, mis kuvatakse bännerina kõigile kasutajatele veebilehel.'},admin:{t:'Adminpaneel',d:'Adminpaneel autoriseeritud kasutajatele toodete ja funktsioonide haldamiseks.'}};
+const ftip=document.getElementById('ftip'),ftitle=document.getElementById('ftitle'),fdesc=document.getElementById('fdesc');
+
+function showFeature(n){const d=fd[n.dataset.f];document.querySelectorAll('.fnode').forEach(x=>x.classList.remove('on'));n.classList.add('on');ftitle.textContent=d.t;fdesc.textContent=d.d;}
+document.querySelectorAll('.fnode').forEach(n=>{n.addEventListener('mouseenter',()=>showFeature(n));n.addEventListener('click',e=>{e.stopPropagation();showFeature(n);});});
+
+// Slide 2 tab click
+document.querySelectorAll('.tbtn').forEach(b=>{
+  b.addEventListener('click',()=>activateTab(b.dataset.p));
+});
+function activateTab(p){
+  document.querySelectorAll('.tbtn').forEach(x=>x.classList.remove('on','hl-on'));
+  document.querySelectorAll('.tpanel').forEach(x=>x.classList.remove('on'));
+  const btn=document.querySelector(`.tbtn[data-p="${p}"]`);
+  if(btn){btn.classList.add('on');}
+  const pan=document.querySelector(`.tpanel[data-p="${p}"]`);
+  if(pan){pan.classList.add('on');}
 }
 
-function go(n){
+// Slide 6 flow click
+document.querySelectorAll('.fng').forEach(g=>{
+  g.addEventListener('click',()=>activateFlowStep(parseInt(g.dataset.s)));
+});
+function activateFlowStep(s){document.querySelectorAll('.fng').forEach((x,i)=>x.classList.toggle('on',i<s));}
+
+// ── Inner steps per slide (0-indexed) ────────────
+// Format: array of step configs per slide index
+// step = { items: fn()=>NodeList/Array, activate: fn(items,i), deactivate: fn(items), count: fn()=>number }
+
+function makeStep(itemsFn,activateFn,deactivateFn){
+  return {
+    items:itemsFn,
+    activate:activateFn,
+    deactivate:deactivateFn,
+    count:()=>itemsFn().length
+  };
+}
+
+const slideSteps={
+  // Slide 2 (idx 1): 3 tabs
+  1: makeStep(
+    ()=>document.querySelectorAll('.tbtn'),
+    (items,i)=>activateTab(items[i].dataset.p),
+    ()=>activateTab('1') // reset to first tab
+  ),
+  // Slide 3 (idx 2): 3 tech cards
+  2: makeStep(
+    ()=>document.querySelectorAll('.tcard'),
+    (items,i)=>items.forEach((x,j)=>x.classList.toggle('hl-on',j===i)),
+    (items)=>items.forEach(x=>x.classList.remove('hl-on'))
+  ),
+  // Slide 4 (idx 3): 6 feature nodes (in DOM order)
+  3: makeStep(
+    ()=>document.querySelectorAll('.fnode'),
+    (items,i)=>showFeature(items[i]),
+    ()=>{document.querySelectorAll('.fnode').forEach(x=>x.classList.remove('on'));ftitle.textContent='—';fdesc.textContent='Klõpsa või liigu hiirega funktsionaalsuse sõlmele.';}
+  ),
+  // Slide 5 (idx 4): 7 admin module items
+  4: makeStep(
+    ()=>document.querySelectorAll('.mitem'),
+    (items,i)=>items.forEach((x,j)=>x.classList.toggle('hl-on',j===i)),
+    (items)=>items.forEach(x=>x.classList.remove('hl-on'))
+  ),
+  // Slide 6 (idx 5): 7 flow steps
+  5: makeStep(
+    ()=>document.querySelectorAll('.fng'),
+    (items,i)=>activateFlowStep(i+1),
+    ()=>activateFlowStep(0)
+  ),
+  // Slide 7 (idx 6): 3 team cards
+  6: makeStep(
+    ()=>document.querySelectorAll('.tmc'),
+    (items,i)=>items.forEach((x,j)=>x.classList.toggle('hl-on',j===i)),
+    (items)=>items.forEach(x=>x.classList.remove('hl-on'))
+  ),
+  // Slide 8 (idx 7): 3 analysis cards
+  7: makeStep(
+    ()=>document.querySelectorAll('.anac'),
+    (items,i)=>items.forEach((x,j)=>x.classList.toggle('hl-on',j===i)),
+    (items)=>items.forEach(x=>x.classList.remove('hl-on'))
+  ),
+  // Slide 9 (idx 8): 7 summary items
+  8: makeStep(
+    ()=>document.querySelectorAll('.sitem'),
+    (items,i)=>items.forEach((x,j)=>x.classList.toggle('hl-on',j===i)),
+    (items)=>items.forEach(x=>x.classList.remove('hl-on'))
+  ),
+};
+
+// Current inner step per slide (-1 = none activated yet)
+const innerCur={};
+
+function resetInner(slideIdx){
+  const step=slideSteps[slideIdx];
+  if(!step) return;
+  step.deactivate(step.items());
+  innerCur[slideIdx]=-1;
+}
+
+function goSlide(n){
   if(n<0||n>=total)return;
-  slides[cur].classList.remove('active');
-  slides[cur].classList.add('exit');
   const prev=cur;
+  resetInner(prev);
+  slides[prev].classList.remove('active');
+  slides[prev].classList.add('exit');
   cur=n;
   setTimeout(()=>slides[prev].classList.remove('exit'),380);
   slides[cur].classList.add('active');
@@ -534,70 +642,75 @@ function go(n){
   document.getElementById('prog').style.width=((cur+1)/total*100)+'%';
   document.getElementById('pb').disabled=cur===0;
   document.getElementById('nb2').disabled=cur===total-1;
-  // reset s9 when leaving slide 9
-  if(prev===S9_SLIDE) s9reset();
 }
 
-document.getElementById('pb').onclick=()=>go(cur-1);
-document.getElementById('nb2').onclick=()=>go(cur+1);
-
-document.addEventListener('keydown',e=>{
-  if(e.target.tagName==='INPUT')return;
-
-  // Slide 9: arrow navigation through items
-  if(cur===S9_SLIDE){
-    if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){
-      e.preventDefault();
-      const items=s9items();
-      const next=s9cur+1;
-      if(next<items.length){s9activate(next);}
-      else{s9reset();go(cur+1);}
+document.getElementById('pb').onclick=()=>{
+  const step=slideSteps[cur];
+  if(step){
+    const i=(innerCur[cur]??-1);
+    if(i>0){
+      innerCur[cur]=i-1;
+      step.activate(step.items(),i-1);
       return;
-    }
-    if(e.key==='ArrowLeft'||e.key==='PageUp'){
-      e.preventDefault();
-      if(s9cur>0){s9activate(s9cur-1);}
-      else if(s9cur===0){s9reset();}
-      else{go(cur-1);}
+    } else if(i===0){
+      resetInner(cur);
       return;
     }
   }
+  goSlide(cur-1);
+};
 
-  if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();go(cur+1);}
-  if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(cur-1);}
-  if(e.key==='Home')go(0);if(e.key==='End')go(total-1);
+document.getElementById('nb2').onclick=()=>{
+  const step=slideSteps[cur];
+  if(step){
+    const i=(innerCur[cur]??-1);
+    const next=i+1;
+    if(next<step.count()){
+      innerCur[cur]=next;
+      step.activate(step.items(),next);
+      return;
+    } else {
+      resetInner(cur);
+      goSlide(cur+1);
+      return;
+    }
+  }
+  goSlide(cur+1);
+};
+
+document.addEventListener('keydown',e=>{
+  if(e.target.tagName==='INPUT')return;
+  const fwd=e.key==='ArrowRight'||e.key===' '||e.key==='PageDown';
+  const bwd=e.key==='ArrowLeft'||e.key==='PageUp';
+  if(fwd||bwd){e.preventDefault();}
+  if(fwd){
+    const step=slideSteps[cur];
+    if(step){
+      const i=(innerCur[cur]??-1);
+      const next=i+1;
+      if(next<step.count()){innerCur[cur]=next;step.activate(step.items(),next);return;}
+      else{resetInner(cur);goSlide(cur+1);return;}
+    }
+    goSlide(cur+1);
+  } else if(bwd){
+    const step=slideSteps[cur];
+    if(step){
+      const i=(innerCur[cur]??-1);
+      if(i>0){innerCur[cur]=i-1;step.activate(step.items(),i-1);return;}
+      else if(i===0){resetInner(cur);return;}
+    }
+    goSlide(cur-1);
+  }
+  if(e.key==='Home')goSlide(0);
+  if(e.key==='End')goSlide(total-1);
   if(e.key.toLowerCase()==='f'){!document.fullscreenElement?document.documentElement.requestFullscreen().catch(()=>{}):document.exitFullscreen();}
 });
 
 let tx=0;
 document.addEventListener('touchstart',e=>tx=e.changedTouches[0].screenX);
-document.addEventListener('touchend',e=>{const dx=e.changedTouches[0].screenX-tx;if(dx<-50)go(cur+1);if(dx>50)go(cur-1);});
+document.addEventListener('touchend',e=>{const dx=e.changedTouches[0].screenX-tx;if(dx<-50){document.getElementById('nb2').onclick();}else if(dx>50){document.getElementById('pb').onclick();}});
 
-// Slide 2 tabs
-document.querySelectorAll('.tbtn').forEach(b=>{
-  b.addEventListener('click',()=>{
-    const p=b.dataset.p;
-    b.closest('.s2grid').querySelectorAll('.tbtn').forEach(x=>x.classList.remove('on'));
-    b.closest('.s2grid').querySelectorAll('.tpanel').forEach(x=>x.classList.remove('on'));
-    b.classList.add('on');
-    b.closest('.s2grid').querySelector(`.tpanel[data-p="${p}"]`).classList.add('on');
-  });
-});
-
-// Slide 4 features
-const fd={builder:{t:'Burger Builder',d:'Kasutaja loob oma burgeri valides koostisosi. Reaalajas SVG eelvaade näitab burgeri kuju visuaalselt.'},cart:{t:'Ostukorv & Makse',d:'Täisfunktsionaalne ostukorv, tarneaadressi valik kaardilt, Stripe kaardimaksega.'},courier:{t:'Kulleri jälgimine',d:'Kuller tarnib tellimust — klient näeb kulleri asukohta reaalajas kaardil koos push-teavitustega.'},reviews:{t:'Arvustused',d:'Kliendid saavad lisada arvustusi tähtedega. Arvustused kuvatakse avalikul lehel.'},announcements:{t:'Teadaanded',d:'Admin avaldab teadaanded, mis kuvatakse bännerina kõigile kasutajatele veebilehel.'},admin:{t:'Adminpaneel',d:'Adminpaneel autoriseeritud kasutajatele toodete ja funktsioonide haldamiseks.'}};
-const ftip=document.getElementById('ftip'),ftitle=document.getElementById('ftitle'),fdesc=document.getElementById('fdesc');
-document.querySelectorAll('.fnode').forEach(n=>{
-  const show=()=>{const d=fd[n.dataset.f];document.querySelectorAll('.fnode').forEach(x=>x.classList.remove('on'));n.classList.add('on');ftitle.textContent=d.t;fdesc.textContent=d.d;};
-  n.addEventListener('mouseenter',show);n.addEventListener('click',e=>{e.stopPropagation();show();});
-});
-
-// Slide 6 flow
-document.querySelectorAll('.fng').forEach(g=>{
-  g.addEventListener('click',()=>{const s=parseInt(g.dataset.s);document.querySelectorAll('.fng').forEach((x,i)=>x.classList.toggle('on',i<s));});
-});
-
-go(0);
+goSlide(0);
 </script>
 </body>
 </html>
