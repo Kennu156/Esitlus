@@ -11,23 +11,22 @@
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 
 :root{
-  /* ── Brand colors extracted from BurgerPrimoWebApp ── */
-  --bg:#0B0B0B;          /* app bg: #0B0B0B */
-  --card:#18181b;        /* zinc-900 cards */
-  --card2:#27272a;       /* zinc-800 hover */
-  --line:rgba(255,255,255,.07);   /* app border opacity */
+  --bg:#0B0B0B;
+  --card:#18181b;
+  --card2:#27272a;
+  --line:rgba(255,255,255,.07);
   --line2:rgba(255,255,255,.14);
-  --a:#D2691E;           /* #D2691E — chocolate, primary brand */
-  --ah:#B8571A;          /* hover: #B8571A */
-  --al:#E07A2E;          /* light: #E07A2E */
+  --a:#D2691E;
+  --ah:#B8571A;
+  --al:#E07A2E;
   --ad:rgba(210,105,30,.13);
-  --tx:#FFFFFF;          /* white text */
-  --mu:rgba(255,255,255,.62);     /* gray-300 equivalent */
-  --di:rgba(255,255,255,.35);     /* muted */
-  --gr:#21c93d;          /* green status */
-  --re:#ef4444;          /* red destructive */
+  --tx:#FFFFFF;
+  --mu:rgba(255,255,255,.62);
+  --di:rgba(255,255,255,.35);
+  --gr:#21c93d;
+  --re:#ef4444;
   --fd:'Bebas Neue',sans-serif;
-  --fb:'Instrument Sans',ui-sans-serif,sans-serif;  /* app font */
+  --fb:'Instrument Sans',ui-sans-serif,sans-serif;
   --fm:'DM Mono',monospace;
   --px:4.5vw;
   --py:2.8vh;
@@ -37,7 +36,6 @@
 
 html,body{width:100%;height:100%;background:#000;overflow:hidden;user-select:none}
 
-/* ─── SHELL ───────────────────────────────────────────────── */
 #pres{position:relative;width:100vw;height:100vh;overflow:hidden}
 
 #prog{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,#8B3A00,#D2691E);z-index:999;transition:width .4s ease}
@@ -51,7 +49,7 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;user-select:non
 .nb:hover{background:var(--a);border-color:var(--a);color:#000}
 .nb:disabled{opacity:.2;cursor:not-allowed}
 
-/* ─── SLIDE BASE ──────────────────────────────────────────── */
+/* SLIDE BASE */
 .slide{
   position:absolute;
   width:100vw;height:100vh;
@@ -66,22 +64,19 @@ html,body{width:100%;height:100%;background:#000;overflow:hidden;user-select:non
 .slide.active{opacity:1;transform:none;pointer-events:auto}
 .slide.exit{opacity:0;transform:translateX(-50px)}
 
-/* corner glow */
 .slide::before{content:'';position:absolute;top:0;left:0;width:35vw;height:40vh;background:radial-gradient(ellipse at 0 0,rgba(210,105,30,.07) 0%,transparent 70%);pointer-events:none}
 
 .snum{position:absolute;top:var(--py);right:var(--px);font-family:var(--fm);font-size:1.3vh;color:var(--di);letter-spacing:2px}
 .sbrand{position:absolute;bottom:1.6vh;left:var(--px);font-family:var(--fm);font-size:1.2vh;color:var(--di);letter-spacing:3px;display:flex;align-items:center;gap:10px}
 .sbrand::before{content:'';display:block;width:18px;height:1px;background:var(--a)}
 
-/* label chip above heading */
 .lbl{font-family:var(--fm);font-size:1.3vh;letter-spacing:3px;color:var(--a);text-transform:uppercase;margin-bottom:.8vh;flex-shrink:0;display:flex;align-items:center;gap:10px}
 .lbl::before{content:'';display:block;width:22px;height:1px;background:var(--a)}
 
-/* section heading */
 h2.ttl{font-family:var(--fd);font-size:7.5vh;color:var(--tx);letter-spacing:2px;line-height:.95;margin-bottom:2.2vh;flex-shrink:0}
 h2.ttl span{color:var(--a)}
 
-/* ─── SLIDE 1 — COVER ─────────────────────────────────────── */
+/* SLIDE 1 — COVER */
 .s1{justify-content:center}
 .s1bg{position:absolute;inset:0;background:radial-gradient(ellipse 65% 85% at 78% 42%,rgba(210,105,30,.11) 0%,transparent 60%),radial-gradient(ellipse 40% 60% at 10% 80%,rgba(168,69,14,.06) 0%,transparent 55%)}
 .s1grid{position:absolute;inset:0;pointer-events:none}
@@ -101,7 +96,7 @@ h2.ttl span{color:var(--a)}
 .s1auth{font-family:var(--fm);font-size:1.5vh;letter-spacing:4px;color:var(--di)}
 .s1auth span{color:var(--a)}
 
-/* ─── SLIDE 2 — OVERVIEW ─────────────────────────────────── */
+/* SLIDE 2 — OVERVIEW */
 .s2grid{display:grid;grid-template-columns:1fr 1.7fr;gap:var(--gap);flex:1;min-height:0}
 .tabl{display:flex;flex-direction:column;gap:var(--gap)}
 .tbtn{background:var(--card);border:1px solid var(--line);border-radius:3px;padding:0 2.2vw;cursor:pointer;transition:all .25s;display:flex;align-items:center;gap:2vw;position:relative;flex:1}
@@ -122,7 +117,7 @@ h2.ttl span{color:var(--a)}
 .tpanel p{font-family:var(--fb);font-size:2.6vh;line-height:1.75;color:var(--mu)}
 .tpanel p em{color:var(--tx);font-style:normal;font-weight:500}
 
-/* ─── SLIDE 3 — TECH ─────────────────────────────────────── */
+/* SLIDE 3 — TECH */
 .s3grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap);flex:1;min-height:0}
 .tcard{background:var(--card);border:1px solid var(--line);border-radius:3px;padding:2.5vh 2vw;display:flex;flex-direction:column;position:relative;overflow:hidden;transition:border-color .25s}
 .tcard::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--a)}
@@ -138,9 +133,9 @@ h2.ttl span{color:var(--a)}
 .tdesc{font-family:var(--fm);font-size:1.4vh;color:var(--di);margin-left:auto}
 .tnote{margin-top:1.8vh;padding:1.4vh 1.2vw;border-left:2px solid var(--a);background:var(--ad);font-family:var(--fb);font-size:1.6vh;color:var(--mu);line-height:1.5;font-style:italic}
 
-/* ─── SLIDE 4 — FEATURES ─────────────────────────────────── */
-.s4wrap{flex:1;position:relative;display:flex;align-items:center;justify-content:center;min-height:0}
-.fsv{width:100%;height:100%}
+/* SLIDE 4 — FEATURES — fix: tooltip at top, not overlapping */
+.s4wrap{flex:1;position:relative;display:flex;flex-direction:column;align-items:center;min-height:0;gap:1vh}
+.fsv{width:100%;flex:1;min-height:0}
 .fnode{cursor:pointer}
 .fnbg{fill:var(--card);stroke:rgba(255,255,255,.1);stroke-width:1.5;transition:all .3s}
 .fnode:hover .fnbg,.fnode.on .fnbg{fill:var(--a);stroke:var(--al);filter:drop-shadow(0 0 18px rgba(210,105,30,.55))}
@@ -151,12 +146,12 @@ h2.ttl span{color:var(--a)}
 .fctr rect{fill:var(--bg);stroke:var(--a);stroke-width:2}
 .fctr text{fill:var(--a);font-family:'Bebas Neue',sans-serif;font-size:22px;text-anchor:middle;letter-spacing:2px}
 .fln{stroke:rgba(255,255,255,.07);stroke-width:1;stroke-dasharray:4 4}
-.ftip{position:absolute;bottom:0;left:50%;transform:translateX(-50%);background:var(--card2);border:1px solid rgba(210,105,30,.3);border-radius:3px;padding:2vh 3vw;min-width:42vw;max-width:56vw;text-align:center;opacity:0;pointer-events:none;transition:opacity .3s}
-.ftip.show{opacity:1}
-.ftip h4{font-family:var(--fm);font-size:1.3vh;letter-spacing:2px;color:var(--a);margin-bottom:.8vh}
-.ftip p{font-family:var(--fb);font-size:2vh;color:var(--mu);line-height:1.5}
+/* Tooltip is now a fixed-height bar BELOW the SVG, never overlaps */
+.ftip{background:var(--card2);border:1px solid rgba(210,105,30,.3);border-radius:3px;padding:1.4vh 3vw;min-height:7vh;width:100%;text-align:center;flex-shrink:0;transition:opacity .3s;display:flex;flex-direction:column;justify-content:center}
+.ftip h4{font-family:var(--fm);font-size:1.3vh;letter-spacing:2px;color:var(--a);margin-bottom:.5vh}
+.ftip p{font-family:var(--fb);font-size:1.9vh;color:var(--mu);line-height:1.4}
 
-/* ─── SLIDE 5 — ADMIN ────────────────────────────────────── */
+/* SLIDE 5 — ADMIN */
 .s5grid{display:grid;grid-template-columns:1.65fr 1fr;gap:var(--gap);flex:1;min-height:0}
 .mods{background:var(--card);border:1px solid var(--line);border-radius:3px;padding:1.5vh 1.5vw;display:flex;flex-direction:column;justify-content:space-evenly;overflow-y:auto}
 .mods::-webkit-scrollbar{width:3px}
@@ -178,7 +173,7 @@ h2.ttl span{color:var(--a)}
 .rcard p{font-family:var(--fb);font-size:1.6vh;color:var(--di)}
 .rbadge{position:absolute;top:1.5vh;right:1.5vw;padding:.3vh .8vw;border-radius:2px;background:var(--ad);border:1px solid rgba(210,105,30,.25);font-family:var(--fm);font-size:1vh;letter-spacing:1.5px;color:var(--a);text-transform:uppercase}
 
-/* ─── SLIDE 6 — FLOW ─────────────────────────────────────── */
+/* SLIDE 6 — FLOW */
 .s6wrap{flex:1;display:flex;flex-direction:column;gap:var(--gap);min-height:0}
 .fhint{font-family:var(--fm);font-size:1.2vh;letter-spacing:2px;color:var(--di);text-align:center;flex-shrink:0}
 .flsvg{width:100%;flex:1;min-height:0;max-height:28vh}
@@ -198,7 +193,7 @@ h2.ttl span{color:var(--a)}
 .chip.red{border-color:rgba(248,113,113,.3);color:var(--re);background:rgba(248,113,113,.06)}
 .asep{color:rgba(210,105,30,.5);font-weight:500;font-size:2vh}
 
-/* ─── SLIDE 7 — TEAM ─────────────────────────────────────── */
+/* SLIDE 7 — TEAM */
 .s7grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap);flex:1;min-height:0}
 .tmc{background:var(--card);border:1px solid var(--line);border-radius:3px;padding:2.8vh 2.2vw;display:flex;flex-direction:column;cursor:pointer;transition:all .3s;position:relative;overflow:hidden}
 .tmc::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:transparent;transition:background .3s}
@@ -214,33 +209,30 @@ h2.ttl span{color:var(--a)}
 .tmc li::before{content:'—';position:absolute;left:0;color:var(--a);font-size:1.2vh}
 .tmc li:hover{color:var(--tx)}
 
-/* ─── SLIDE 8 — ANALYSIS ─────────────────────────────────── */
+/* SLIDE 8 — ANALYSIS — no badges */
 .s8grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap);flex:1;min-height:0}
 .anac{background:var(--card);border:1px solid var(--line);border-radius:3px;padding:3.5vh 2.8vw;display:flex;flex-direction:column;position:relative;overflow:hidden;transition:border-color .25s}
 .anac:hover{border-color:var(--line2)}
 .ananum{font-family:var(--fd);font-size:20vh;position:absolute;right:2vw;top:0;opacity:.05;color:var(--a);line-height:1;transition:opacity .3s;pointer-events:none}
 .anac:hover .ananum{opacity:.1}
-.badge{display:inline-flex;align-items:center;gap:6px;padding:.7vh 1vw;border-radius:2px;font-family:var(--fm);font-size:1.2vh;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:2vh;width:fit-content}
-.badge::before{content:'';width:6px;height:6px;border-radius:50%}
-.badge.good{background:rgba(52,211,153,.1);color:var(--gr);border:1px solid rgba(52,211,153,.25)}
-.badge.good::before{background:var(--gr)}
-.badge.warn{background:rgba(210,105,30,.1);color:#E0832E;border:1px solid rgba(210,105,30,.3)}
-.badge.warn::before{background:#E0832E}
-.badge.act{background:var(--ad);color:var(--a);border:1px solid rgba(210,105,30,.25)}
-.badge.act::before{background:var(--a)}
 .anac h3{font-family:var(--fb);font-size:2.4vh;font-weight:500;color:var(--tx);margin-bottom:2vh;position:relative;z-index:1;line-height:1.3}
 .anac p{font-family:var(--fb);font-size:2.1vh;line-height:1.7;color:var(--mu);position:relative;z-index:1;flex:1}
 
-/* ─── SLIDE 9 — SUMMARY ──────────────────────────────────── */
+/* SLIDE 9 — SUMMARY — fixed layout, arrow navigation */
+.s9outer{flex:1;display:flex;flex-direction:column;min-height:0;gap:var(--gap)}
 .s9grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);flex:1;min-height:0}
-.sitem{display:flex;align-items:center;gap:2vw;background:var(--card);border:1px solid var(--line);border-radius:3px;padding:0 2.5vw;transition:all .25s}
-.sitem:hover{border-color:var(--line2);transform:translateX(4px)}
+.sitem{display:flex;align-items:center;gap:2vw;background:var(--card);border:1px solid var(--line);border-radius:3px;padding:0 2.5vw;transition:all .25s;position:relative}
+.sitem:hover{border-color:var(--line2)}
 .sitem.full{grid-column:1/-1}
-.sico{width:4.5vh;height:4.5vh;border-radius:50%;border:1px solid rgba(210,105,30,.3);background:var(--ad);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--fm);font-size:1.8vh;color:var(--a);transition:transform .25s}
-.sitem:hover .sico{transform:rotate(90deg)}
+/* active state for arrow navigation */
+.sitem.active-item{border-color:var(--a);box-shadow:inset 3px 0 0 var(--a);background:var(--card2)}
+.sitem.active-item .sico{transform:rotate(90deg);background:var(--a);border-color:var(--a);color:#000}
+.sico{width:4.5vh;height:4.5vh;border-radius:50%;border:1px solid rgba(210,105,30,.3);background:var(--ad);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--fm);font-size:1.8vh;color:var(--a);transition:all .25s;flex-shrink:0}
 .sitem p{font-family:var(--fb);font-size:2.2vh;color:var(--tx);line-height:1.45}
+/* hint for slide 9 navigation */
+.s9hint{font-family:var(--fm);font-size:1.1vh;letter-spacing:2px;color:var(--di);text-align:center;flex-shrink:0}
 
-/* ─── SLIDE 10 — END ─────────────────────────────────────── */
+/* SLIDE 10 — END */
 .s10{justify-content:center;align-items:center;text-align:center;background:radial-gradient(ellipse 70% 70% at 50% 45%,rgba(210,105,30,.09) 0%,var(--bg) 58%)}
 .s10burg{width:18vh;height:18vh;margin-bottom:4vh;filter:drop-shadow(0 1vh 3vh rgba(210,105,30,.32));animation:fl 4s ease-in-out infinite}
 .s10 h1{font-family:var(--fd);font-size:13vh;color:var(--tx);letter-spacing:3px}
@@ -347,42 +339,46 @@ h2.ttl span{color:var(--a)}
   <div class="lbl">Põhifunktsionaalsus</div>
   <h2 class="ttl">Mida rakendus <span>oskab?</span></h2>
   <div class="s4wrap">
-    <svg class="fsv" viewBox="0 0 880 460" xmlns="http://www.w3.org/2000/svg">
-      <line class="fln" x1="440" y1="230" x2="200" y2="120"/><line class="fln" x1="440" y1="230" x2="440" y2="90"/><line class="fln" x1="440" y1="230" x2="680" y2="120"/>
-      <line class="fln" x1="440" y1="230" x2="200" y2="340"/><line class="fln" x1="440" y1="230" x2="440" y2="370"/><line class="fln" x1="440" y1="230" x2="680" y2="340"/>
-      <g class="fctr"><rect x="364" y="182" width="152" height="96" rx="4"/><text x="440" y="222">BURGER</text><text x="440" y="250">PRIMO</text></g>
+    <svg class="fsv" viewBox="0 0 880 420" xmlns="http://www.w3.org/2000/svg">
+      <line class="fln" x1="440" y1="210" x2="200" y2="110"/><line class="fln" x1="440" y1="210" x2="440" y2="80"/><line class="fln" x1="440" y1="210" x2="680" y2="110"/>
+      <line class="fln" x1="440" y1="210" x2="200" y2="310"/><line class="fln" x1="440" y1="210" x2="440" y2="340"/><line class="fln" x1="440" y1="210" x2="680" y2="310"/>
+      <g class="fctr"><rect x="364" y="162" width="152" height="96" rx="4"/><text x="440" y="202">BURGER</text><text x="440" y="230">PRIMO</text></g>
       <g class="fnode" data-f="builder">
-        <rect class="fnbg" x="118" y="70" width="164" height="100" rx="4"/>
-        <g class="fi" transform="translate(172,84)"><path d="M2 12Q2 6 10 6L46 6Q54 6 54 12L54 14L2 14Z"/><line x1="2" y1="19" x2="54" y2="19"/><line x1="2" y1="23" x2="54" y2="23"/><path d="M2 27Q2 33 10 33L46 33Q54 33 54 27L54 25L2 25Z"/></g>
-        <text class="nl" x="200" y="154">Burger Builder</text>
+        <rect class="fnbg" x="118" y="60" width="164" height="100" rx="4"/>
+        <g class="fi" transform="translate(172,74)"><path d="M2 12Q2 6 10 6L46 6Q54 6 54 12L54 14L2 14Z"/><line x1="2" y1="19" x2="54" y2="19"/><line x1="2" y1="23" x2="54" y2="23"/><path d="M2 27Q2 33 10 33L46 33Q54 33 54 27L54 25L2 25Z"/></g>
+        <text class="nl" x="200" y="144">Burger Builder</text>
       </g>
       <g class="fnode" data-f="cart">
-        <rect class="fnbg" x="358" y="40" width="164" height="100" rx="4"/>
-        <g class="fi" transform="translate(412,55)"><path d="M0 0L10 0L16 24L52 24L56 6L16 6"/><circle cx="24" cy="34" r="3" fill="rgba(245,243,238,.4)" stroke="none"/><circle cx="46" cy="34" r="3" fill="rgba(245,243,238,.4)" stroke="none"/></g>
-        <text class="nl" x="440" y="124">Ostukorv</text>
+        <rect class="fnbg" x="358" y="30" width="164" height="100" rx="4"/>
+        <g class="fi" transform="translate(412,45)"><path d="M0 0L10 0L16 24L52 24L56 6L16 6"/><circle cx="24" cy="34" r="3" fill="rgba(245,243,238,.4)" stroke="none"/><circle cx="46" cy="34" r="3" fill="rgba(245,243,238,.4)" stroke="none"/></g>
+        <text class="nl" x="440" y="114">Ostukorv</text>
       </g>
       <g class="fnode" data-f="courier">
-        <rect class="fnbg" x="598" y="70" width="164" height="100" rx="4"/>
-        <g class="fi" transform="translate(654,82)"><path d="M26 2C14 2 4 12 4 24C4 38 26 58 26 58C26 58 48 38 48 24C48 12 38 2 26 2Z"/><circle cx="26" cy="24" r="7"/></g>
-        <text class="nl" x="680" y="154">Kuller</text>
+        <rect class="fnbg" x="598" y="60" width="164" height="100" rx="4"/>
+        <g class="fi" transform="translate(654,72)"><path d="M26 2C14 2 4 12 4 24C4 38 26 58 26 58C26 58 48 38 48 24C48 12 38 2 26 2Z"/><circle cx="26" cy="24" r="7"/></g>
+        <text class="nl" x="680" y="144">Kuller</text>
       </g>
       <g class="fnode" data-f="reviews">
-        <rect class="fnbg" x="118" y="300" width="164" height="100" rx="4"/>
-        <g class="fi" transform="translate(168,312)"><polygon points="28,2 34,18 52,18 38,28 44,48 28,36 12,48 18,28 4,18 22,18"/></g>
-        <text class="nl" x="200" y="384">Arvustused</text>
+        <rect class="fnbg" x="118" y="270" width="164" height="100" rx="4"/>
+        <g class="fi" transform="translate(168,282)"><polygon points="28,2 34,18 52,18 38,28 44,48 28,36 12,48 18,28 4,18 22,18"/></g>
+        <text class="nl" x="200" y="354">Arvustused</text>
       </g>
       <g class="fnode" data-f="announcements">
-        <rect class="fnbg" x="358" y="350" width="164" height="100" rx="4"/>
-        <g class="fi" transform="translate(412,364)"><path d="M0 14L0 28L14 28L36 44L36 0L14 14Z"/><path d="M42 12Q52 22 42 32"/><path d="M48 6Q62 22 48 38"/></g>
-        <text class="nl" x="440" y="434">Teadaanded</text>
+        <rect class="fnbg" x="358" y="310" width="164" height="100" rx="4"/>
+        <g class="fi" transform="translate(412,324)"><path d="M0 14L0 28L14 28L36 44L36 0L14 14Z"/><path d="M42 12Q52 22 42 32"/><path d="M48 6Q62 22 48 38"/></g>
+        <text class="nl" x="440" y="394">Teadaanded</text>
       </g>
       <g class="fnode" data-f="admin">
-        <rect class="fnbg" x="598" y="300" width="164" height="100" rx="4"/>
-        <g class="fi" transform="translate(654,310)"><path d="M26 2L29 2L30 8Q33 9 36 10.5L41 6L44 9L40 14Q41 16 42 18.5L48 19.5L48 24L42 25Q41 27 40 29L44 34L41 37L36 32Q33 33 30 34L29 40L26 40L23 40L22 34Q19 33 16 32L11 37L8 34L12 29Q11 27 10 25L4 24L4 19.5L10 18.5Q11 16 12 14L8 9L11 6L16 10.5Q19 9 22 8L23 2Z"/><circle cx="26" cy="21" r="6"/></g>
-        <text class="nl" x="680" y="384">Adminpaneel</text>
+        <rect class="fnbg" x="598" y="270" width="164" height="100" rx="4"/>
+        <g class="fi" transform="translate(654,280)"><path d="M26 2L29 2L30 8Q33 9 36 10.5L41 6L44 9L40 14Q41 16 42 18.5L48 19.5L48 24L42 25Q41 27 40 29L44 34L41 37L36 32Q33 33 30 34L29 40L26 40L23 40L22 34Q19 33 16 32L11 37L8 34L12 29Q11 27 10 25L4 24L4 19.5L10 18.5Q11 16 12 14L8 9L11 6L16 10.5Q19 9 22 8L23 2Z"/><circle cx="26" cy="21" r="6"/></g>
+        <text class="nl" x="680" y="354">Adminpaneel</text>
       </g>
     </svg>
-    <div class="ftip" id="ftip"><h4 id="ftitle">—</h4><p id="fdesc">Klõpsa või liigu hiirega funktsionaalsuse sõlmele.</p></div>
+    <!-- Tooltip is now below the SVG, never overlaps nodes -->
+    <div class="ftip" id="ftip">
+      <h4 id="ftitle">—</h4>
+      <p id="fdesc">Klõpsa või liigu hiirega funktsionaalsuse sõlmele.</p>
+    </div>
   </div>
   <div class="snum">04 / 10</div><div class="sbrand">Burger Primo</div>
 </div>
@@ -449,30 +445,33 @@ h2.ttl span{color:var(--a)}
   <div class="snum">07 / 10</div><div class="sbrand">Burger Primo</div>
 </div>
 
-<!-- SLIDE 8 — ANALYSIS -->
+<!-- SLIDE 8 — ANALYSIS — badges removed -->
 <div class="slide" data-n="8">
   <div class="lbl">Tulemusteanalüüs</div>
   <h2 class="ttl">Mis läks hästi, <span>mis mitte?</span></h2>
   <div class="s8grid">
-    <div class="anac"><div class="ananum">1</div><div class="badge good">Positiivne</div><h3>Mis läks hästi</h3><p>Restorani omaniku soovid said kõik edukalt lahendatud. Koostöö sujus hästi ja töö oli hästi jaotatud.</p></div>
-    <div class="anac"><div class="ananum">2</div><div class="badge warn">Väljakutse</div><h3>Mida oleks saanud paremini?</h3><p>Kõige suuremaks vaenlaseks oli aja planeerimine. Planeeritud sprintid lükkusid edasi. Tekkis ka eriarvamusi kuidas mida teha.</p></div>
-    <div class="anac"><div class="ananum">3</div><div class="badge act">Tegevuskava</div><h3>Kuidas probleeme lahendada?</h3><p>Tuleks kinni pidada aegadest ning arvestada tiimikaaslastega. Eriarvamuste korral tuleks nõu pidada ettevõtte omanikuga.</p></div>
+    <div class="anac"><div class="ananum">1</div><h3>Mis läks hästi</h3><p>Restorani omaniku soovid said kõik edukalt lahendatud. Koostöö sujus hästi ja töö oli hästi jaotatud.</p></div>
+    <div class="anac"><div class="ananum">2</div><h3>Mida oleks saanud paremini?</h3><p>Kõige suuremaks vaenlaseks oli aja planeerimine. Planeeritud sprintid lükkusid edasi. Tekkis ka eriarvamusi kuidas mida teha.</p></div>
+    <div class="anac"><div class="ananum">3</div><h3>Kuidas probleeme lahendada?</h3><p>Tuleks kinni pidada aegadest ning arvestada tiimikaaslastega. Eriarvamuste korral tuleks nõu pidada ettevõtte omanikuga.</p></div>
   </div>
   <div class="snum">08 / 10</div><div class="sbrand">Burger Primo</div>
 </div>
 
-<!-- SLIDE 9 — SUMMARY -->
-<div class="slide" data-n="9">
+<!-- SLIDE 9 — SUMMARY — fixed layout + arrow navigation -->
+<div class="slide" data-n="9" id="slide9">
   <div class="lbl">Kokkuvõte</div>
   <h2 class="ttl">Mida saavutasime <span>kokku?</span></h2>
-  <div class="s9grid">
-    <div class="sitem"><div class="sico">✓</div><p>Täisfunktsionaalne veebirakendus restoranile Burger Primo</p></div>
-    <div class="sitem"><div class="sico">✓</div><p>Kohandatav Burger Builder reaalajas SVG eelvaatega</p></div>
-    <div class="sitem"><div class="sico">✓</div><p>Stripe makse integratsioon turvaliseks veebimakseks</p></div>
-    <div class="sitem"><div class="sico">✓</div><p>Kulleri reaalajas jälgimine kaardil</p></div>
-    <div class="sitem"><div class="sico">✓</div><p>Rollipõhine adminpaneel — super admin, subadmin, kuller</p></div>
-    <div class="sitem"><div class="sico">✓</div><p>PWA tugi — rakendus töötab mobiilil nagu äpp</p></div>
-    <div class="sitem full"><div class="sico">✓</div><p>Push-teavitused tellimuse staatuse muutuste kohta kasutajale</p></div>
+  <div class="s9outer">
+    <div class="s9grid" id="s9grid">
+      <div class="sitem" data-i="0"><div class="sico">✓</div><p>Täisfunktsionaalne veebirakendus restoranile Burger Primo</p></div>
+      <div class="sitem" data-i="1"><div class="sico">✓</div><p>Kohandatav Burger Builder reaalajas SVG eelvaatega</p></div>
+      <div class="sitem" data-i="2"><div class="sico">✓</div><p>Stripe makse integratsioon turvaliseks veebimakseks</p></div>
+      <div class="sitem" data-i="3"><div class="sico">✓</div><p>Kulleri reaalajas jälgimine kaardil</p></div>
+      <div class="sitem" data-i="4"><div class="sico">✓</div><p>Rollipõhine adminpaneel — super admin, subadmin, kuller</p></div>
+      <div class="sitem" data-i="5"><div class="sico">✓</div><p>PWA tugi — rakendus töötab mobiilil nagu äpp</p></div>
+      <div class="sitem full" data-i="6"><div class="sico">✓</div><p>Push-teavitused tellimuse staatuse muutuste kohta kasutajale</p></div>
+    </div>
+    <div class="s9hint">← → navigeeri punktide vahel</div>
   </div>
   <div class="snum">09 / 10</div><div class="sbrand">Burger Primo</div>
 </div>
@@ -504,8 +503,24 @@ h2.ttl span{color:var(--a)}
 <script>
 const slides=[...document.querySelectorAll('.slide')],total=slides.length;
 let cur=0;
+
+// Slide 9 item navigation state
+let s9cur=-1;
+const s9items=()=>[...document.querySelectorAll('#s9grid .sitem')];
+const S9_SLIDE=8; // 0-indexed
+
 const dotsEl=document.getElementById('dots');
 for(let i=0;i<total;i++){const d=document.createElement('div');d.className='dot'+(i===0?' on':'');d.onclick=()=>go(i);dotsEl.appendChild(d);}
+
+function s9reset(){s9cur=-1;s9items().forEach(x=>x.classList.remove('active-item'));}
+function s9activate(n){
+  const items=s9items();
+  if(n<0){s9cur=-1;items.forEach(x=>x.classList.remove('active-item'));return false;}
+  if(n>=items.length) return false; // signal: go to next slide
+  s9cur=n;
+  items.forEach((x,i)=>x.classList.toggle('active-item',i===n));
+  return true;
+}
 
 function go(n){
   if(n<0||n>=total)return;
@@ -519,6 +534,8 @@ function go(n){
   document.getElementById('prog').style.width=((cur+1)/total*100)+'%';
   document.getElementById('pb').disabled=cur===0;
   document.getElementById('nb2').disabled=cur===total-1;
+  // reset s9 when leaving slide 9
+  if(prev===S9_SLIDE) s9reset();
 }
 
 document.getElementById('pb').onclick=()=>go(cur-1);
@@ -526,6 +543,26 @@ document.getElementById('nb2').onclick=()=>go(cur+1);
 
 document.addEventListener('keydown',e=>{
   if(e.target.tagName==='INPUT')return;
+
+  // Slide 9: arrow navigation through items
+  if(cur===S9_SLIDE){
+    if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){
+      e.preventDefault();
+      const items=s9items();
+      const next=s9cur+1;
+      if(next<items.length){s9activate(next);}
+      else{s9reset();go(cur+1);}
+      return;
+    }
+    if(e.key==='ArrowLeft'||e.key==='PageUp'){
+      e.preventDefault();
+      if(s9cur>0){s9activate(s9cur-1);}
+      else if(s9cur===0){s9reset();}
+      else{go(cur-1);}
+      return;
+    }
+  }
+
   if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();go(cur+1);}
   if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(cur-1);}
   if(e.key==='Home')go(0);if(e.key==='End')go(total-1);
@@ -551,7 +588,7 @@ document.querySelectorAll('.tbtn').forEach(b=>{
 const fd={builder:{t:'Burger Builder',d:'Kasutaja loob oma burgeri valides koostisosi. Reaalajas SVG eelvaade näitab burgeri kuju visuaalselt.'},cart:{t:'Ostukorv & Makse',d:'Täisfunktsionaalne ostukorv, tarneaadressi valik kaardilt, Stripe kaardimaksega.'},courier:{t:'Kulleri jälgimine',d:'Kuller tarnib tellimust — klient näeb kulleri asukohta reaalajas kaardil koos push-teavitustega.'},reviews:{t:'Arvustused',d:'Kliendid saavad lisada arvustusi tähtedega. Arvustused kuvatakse avalikul lehel.'},announcements:{t:'Teadaanded',d:'Admin avaldab teadaanded, mis kuvatakse bännerina kõigile kasutajatele veebilehel.'},admin:{t:'Adminpaneel',d:'Adminpaneel autoriseeritud kasutajatele toodete ja funktsioonide haldamiseks.'}};
 const ftip=document.getElementById('ftip'),ftitle=document.getElementById('ftitle'),fdesc=document.getElementById('fdesc');
 document.querySelectorAll('.fnode').forEach(n=>{
-  const show=()=>{const d=fd[n.dataset.f];document.querySelectorAll('.fnode').forEach(x=>x.classList.remove('on'));n.classList.add('on');ftitle.textContent=d.t;fdesc.textContent=d.d;ftip.classList.add('show');};
+  const show=()=>{const d=fd[n.dataset.f];document.querySelectorAll('.fnode').forEach(x=>x.classList.remove('on'));n.classList.add('on');ftitle.textContent=d.t;fdesc.textContent=d.d;};
   n.addEventListener('mouseenter',show);n.addEventListener('click',e=>{e.stopPropagation();show();});
 });
 
